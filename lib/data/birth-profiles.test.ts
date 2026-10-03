@@ -15,6 +15,7 @@ const mocks = vi.hoisted(() => ({
 }));
 vi.mock('@/lib/session', () => ({ getCurrentAccount: mocks.account }));
 vi.mock('@/lib/supabase/server', () => ({ getSupabase: () => ({ from: mocks.from }) }));
+
 import type { BirthInput } from '@/types/chart';
 import { getBirthProfile, saveBirthProfile, saveProfileDetails } from './birth-profiles';
 
