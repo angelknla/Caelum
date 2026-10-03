@@ -6,19 +6,31 @@
   min-height: 5rem;
   padding: 1rem max(3rem, calc((100% - 64rem) / 2));
   border-bottom: 1px solid var(--border);
+  background: var(--surface);
+  border-radius: 0 0 var(--radius) var(--radius);
 }
 
 .brand {
   font-family: var(--font-display), Georgia, serif;
-  font-size: 1.75rem;
   color: var(--text);
   text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-weight: 600;
+  font-size: 1.4rem;
 }
 .primary {
   display: flex;
   gap: 1.5rem;
   margin-left: auto;
   margin-right: 1rem;
+}
+.brand svg {
+  transition: transform 400ms ease;
+}
+.brand:hover svg {
+  transform: rotate(45deg);
 }
 @media (max-width: 650px) {
   .header {
@@ -46,8 +58,9 @@
   color: var(--gold);
 }
 .primary a[aria-current="page"] {
-  color: var(--gold);
-  border-bottom-color: var(--gold);
+  color: var(--text);
+  border-bottom: 3px solid var(--text);
+  font-weight: 600;
 }
 @media (max-width: 950px) {
   .header {

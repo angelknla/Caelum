@@ -2,6 +2,23 @@
   width: min(100%, 64rem);
   margin: 1rem auto 4rem;
 }
+.banner {
+  background: var(--ink);
+  border-radius: var(--radius);
+  margin-inline: calc((100% - 100vw) / 2);
+  padding: 3rem max(3rem, calc((100vw - 64rem) / 2));
+}
+.banner > :first-child {
+  background: transparent;
+  border-radius: 0;
+  margin: 0;
+  padding: 0;
+}
+@media (max-width: 650px) {
+  .banner {
+    padding: 2rem 1.25rem;
+  }
+}
 .heading {
   display: flex;
   align-items: center;

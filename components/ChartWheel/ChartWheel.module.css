@@ -59,6 +59,18 @@
   font-size: 10px;
 }
 .explorer {
+  color-scheme: dark;
+  --background: #050505;
+  --surface: #202020;
+  --text: #f5f6f2;
+  --muted: #bcbcb7;
+  --gold: #d6c199;
+  --accent: #e4ff7a;
+  --border: #393939;
+  color: var(--text);
+  background: var(--background);
+  border-radius: var(--radius);
+  padding: 2rem;
   display: grid;
   grid-template-columns: minmax(0, 1fr) 15rem;
   gap: 2.5rem;
@@ -89,8 +101,17 @@
   font-size: 20px;
 }
 .bodyControl[aria-pressed="true"] {
-  border-color: var(--gold);
-  color: var(--gold);
+  border-color: var(--electric);
+  color: var(--ink);
+  background: var(--electric);
+}
+.bodyControl:hover:not(:disabled) {
+  background: var(--surface);
+  color: var(--electric);
+}
+.bodyControl[aria-pressed="true"]:hover {
+  background: var(--electric);
+  color: var(--ink);
 }
 .inspector {
   padding-top: 1.5rem;
@@ -114,6 +135,7 @@
   border: 1px solid var(--border);
   color: var(--text);
   padding: 0.6rem;
+  border-radius: var(--radius);
 }
 .toggle {
   display: flex;
@@ -159,7 +181,7 @@
   text-align: left;
   border: 0;
   border-bottom: 1px solid var(--border);
-  border-radius: 0;
+  border-radius: var(--radius);
   padding: 0.75rem 0;
   background: transparent;
   color: var(--text);
@@ -169,6 +191,10 @@
   display: block;
   margin-top: 0.4rem;
   color: var(--muted);
+}
+.readout li button:hover:not(:disabled) {
+  background: var(--surface);
+  color: var(--electric);
 }
 .note {
   color: var(--muted);
@@ -195,8 +221,23 @@
   font-size: 0.75rem;
 }
 .houseControls button[aria-pressed="true"] {
-  color: var(--gold);
-  border-color: var(--gold);
+  color: var(--ink);
+  border-color: var(--electric);
+  background: var(--electric);
+}
+.houseControls button:hover:not(:disabled) {
+  background: var(--surface);
+  color: var(--text);
+}
+.houseControls button[aria-pressed="true"]:hover {
+  background: var(--electric);
+  color: var(--ink);
+}
+@media (max-width: 650px) {
+  .explorer {
+    margin-inline: -1.25rem;
+    padding: 1.25rem;
+  }
 }
 @media (max-width: 1000px) {
   .explorer {

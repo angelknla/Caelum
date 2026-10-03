@@ -45,7 +45,7 @@
   color: var(--text);
   border: 1px solid var(--border);
   background: var(--surface);
-  border-radius: 2px;
+  border-radius: var(--radius);
 }
 .check {
   display: flex;
@@ -148,7 +148,7 @@
   gap: 1.5rem;
   align-items: center;
   justify-content: space-between;
-  border-radius: 2px;
+  border-radius: var(--radius);
   background: var(--text);
   color: var(--background);
   border-color: var(--text);
@@ -162,7 +162,7 @@
   color: var(--muted);
   background: transparent;
   border: 1px solid var(--border);
-  border-radius: 2px;
+  border-radius: var(--radius);
 }
 .error {
   color: var(--error);

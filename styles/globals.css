@@ -1,13 +1,16 @@
 :root {
-  --background: #101211;
-  --surface: #1c211f;
-  --text: #f6f3ec;
-  --muted: #bcbfb7;
-  --border: #3b423d;
-  --gold: #d7bc82;
-  --accent: #d7bc82;
+  --background: #141414;
+  --surface: #202020;
+  --text: #f5f5f2;
+  --muted: #bcbcb7;
+  --border: #3b3b3b;
+  --gold: #d6c199;
+  --accent: #e4ff7a;
+  --ink: #050505;
+  --electric: #e4ff7a;
   --wine: #6e3948;
-  --error: #f0a7b3;
+  --error: #ff91a7;
+  --radius: 8px;
   color-scheme: dark;
 }
 
@@ -18,6 +21,8 @@
 body {
   margin: 0;
   background: var(--background);
+  background-image: radial-gradient(#ffffff08 0.6px, transparent 0.6px);
+  background-size: 8px 8px;
   color: var(--text);
   font-family: var(--font-ui), sans-serif;
   line-height: 1.5;
@@ -30,12 +35,16 @@ main {
   padding: 3rem 3rem 5rem;
 }
 
+main:has([data-today-view]) {
+  padding-top: 0;
+}
+
 h1,
 h2,
 h3 {
   font-family: var(--font-display), Georgia, serif;
-  font-weight: 400;
-  line-height: 1.2;
+  font-weight: 500;
+  line-height: 1.08;
   overflow-wrap: anywhere;
 }
 
@@ -54,8 +63,8 @@ select {
 button {
   min-height: 2.75rem;
   padding: 0.65rem 1rem;
-  border: 1px solid var(--accent);
-  border-radius: 2px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
   background: var(--surface);
   color: var(--text);
   cursor: pointer;
@@ -72,7 +81,7 @@ button:disabled {
 }
 
 button:hover:not(:disabled) {
-  background-color: #303a34;
+  background-color: #383838;
 }
 button[type="submit"]:hover:not(:disabled) {
   border-color: var(--gold);
@@ -121,6 +130,7 @@ select {
   background: var(--text);
   color: var(--background);
   padding: 0.75rem;
+  border-radius: var(--radius);
 }
 .skipLink:focus {
   top: 1rem;

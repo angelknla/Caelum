@@ -1,3 +1,4 @@
+import { ArrowUpRight } from 'lucide-react';
 import Link from 'next/link';
 import type { buildToday } from '@/lib/astrology/today';
 import styles from './TodayView.module.css';
@@ -59,40 +60,60 @@ export default function TodayView({ today, timeZone }: { today: TodayData; timeZ
   const eventTime = (value: string) =>
     `${date.format(new Date(value))} · ${time.format(new Date(value))}`;
   return (
-    <article className={styles.today}>
-      <header className={styles.heading}>
-        <p className={styles.eyebrow}>{date.format(new Date(today.sky.at))}</p>
-        <h1>Your sky, today.</h1>
-        <p>
-          Calculated at {time.format(new Date(today.sky.at))} · {timeZone}
-        </p>
-        <Link href="/chart">Your natal chart</Link>
-        <span> · </span>
-        <Link href="/calendar">The days ahead</Link>
-      </header>
-      <section className={styles.lunar} aria-labelledby="moon-title">
-        <MoonPhase elongation={today.sky.elongation} phase={today.phase} />
-        <div>
-          <p className={styles.eyebrow}>The Moon / Now</p>
-          <h2 id="moon-title">{today.phase}</h2>
-          <p className={styles.moonPosition}>
-            {today.moon.degree.toFixed(2)}° {today.moon.sign} ·{' '}
-            {(today.sky.illumination * 100).toFixed(1)}% illuminated
+    <article className={styles.today} data-today-view>
+      <div className={styles.observatory}>
+        <header className={styles.heading}>
+          <p className={styles.eyebrow}>{date.format(new Date(today.sky.at))}</p>
+          <h1>
+            Your sky,
+            <br />
+            <span>today.</span>
+          </h1>
+          <p>
+            Calculated at {time.format(new Date(today.sky.at))} · {timeZone}
           </p>
-          <dl>
-            <dt>Next exact phase</dt>
-            <dd>
-              {today.events.nextPhase.name}
-              <small>{eventTime(today.events.nextPhase.at)}</small>
-            </dd>
-            <dt>Next sign ingress</dt>
-            <dd>
-              Moon enters {today.events.ingress.sign}
-              <small>{eventTime(today.events.ingress.at)}</small>
-            </dd>
-          </dl>
-        </div>
-      </section>
+          <nav className={styles.heroLinks} aria-label="Sky views">
+            <Link href="/chart">
+              Your natal chart <ArrowUpRight size={16} aria-hidden="true" />
+            </Link>
+            <Link href="/calendar">
+              The days ahead <ArrowUpRight size={16} aria-hidden="true" />
+            </Link>
+          </nav>
+        </header>
+        <section className={styles.lunar} aria-labelledby="moon-title">
+          <div className={styles.moonArtwork}>
+            <MoonPhase elongation={today.sky.elongation} phase={today.phase} />
+            <span className={styles.illumination}>
+              {(today.sky.illumination * 100).toFixed(0)}
+              <small>% lit</small>
+            </span>
+          </div>
+          <div>
+            <p className={styles.eyebrow}>The Moon / Now</p>
+            <h2 id="moon-title">{today.phase}</h2>
+            <p className={styles.moonPosition}>
+              {today.moon.degree.toFixed(2)}° {today.moon.sign} ·{' '}
+              {(today.sky.illumination * 100).toFixed(1)}% illuminated
+            </p>
+            <details className={styles.lunarEvents}>
+              <summary>Next in the sky</summary>
+              <dl>
+                <dt>Next exact phase</dt>
+                <dd>
+                  {today.events.nextPhase.name}
+                  <small>{eventTime(today.events.nextPhase.at)}</small>
+                </dd>
+                <dt>Next sign ingress</dt>
+                <dd>
+                  Moon enters {today.events.ingress.sign}
+                  <small>{eventTime(today.events.ingress.at)}</small>
+                </dd>
+              </dl>
+            </details>
+          </div>
+        </section>
+      </div>
       <div className={styles.focuses}>
         {today.focus.map((focus, index) => {
           const reading = (

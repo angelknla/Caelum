@@ -66,7 +66,9 @@ export default async function ChartPage() {
           <Pencil size={18} />
         </Link>
       </header>
-      <ChartWheel chart={chart} />
+      <div className={styles.banner}>
+        <ChartWheel chart={chart} />
+      </div>
       <ChartReveal chart={chart} />
       <ChartDNA dna={dna} />
       <section className={styles.evidence} aria-labelledby="positions-title">

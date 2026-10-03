@@ -26,5 +26,6 @@ it('renders four grounded reflections, lunar events, timezone, and evidence', ()
   expect(screen.getByText(/Europe\/London/)).toBeInTheDocument();
   expect(screen.getByText('Next exact phase')).toBeInTheDocument();
   expect(screen.getByText('Next sign ingress')).toBeInTheDocument();
+  expect(screen.getByText('Next in the sky').closest('details')).not.toHaveAttribute('open');
   for (const focus of today.focus) expect(screen.getByText(focus.prompt)).toBeInTheDocument();
 });

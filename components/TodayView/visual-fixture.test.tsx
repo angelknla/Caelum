@@ -37,7 +37,7 @@ it('keeps two primary readings visible and can generate private synthetic visual
       classes[name] ? `.${classes[name]}` : match
     );
   const styles = [
-    '@import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500&family=Manrope:wght@400;500;600&display=swap"); :root { --font-display: "Cormorant Garamond"; --font-ui: "Manrope"; }',
+    '@import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500&family=Space+Grotesk:wght@400;500;600&family=Manrope:wght@400;500;600&display=swap"); :root { --font-display: "Space Grotesk"; --font-serif: "Cormorant Garamond"; --font-ui: "Manrope"; }',
     readFileSync('styles/globals.css', 'utf8'),
     css('components/Header/Header.module.css', headerStyles),
     css('app/(pages)/chart/page.module.css', chartStyles),

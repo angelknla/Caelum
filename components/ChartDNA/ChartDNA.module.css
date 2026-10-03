@@ -119,7 +119,7 @@
 }
 .prose {
   max-width: 46rem;
-  font-family: var(--font-display), Georgia, serif;
+  font-family: var(--font-serif), Georgia, serif;
   font-size: 1.6rem;
 }
 .insight blockquote {

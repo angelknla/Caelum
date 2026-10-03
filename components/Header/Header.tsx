@@ -1,4 +1,4 @@
-import { LogOut } from 'lucide-react';
+import { LogOut, Orbit } from 'lucide-react';
 import Link from 'next/link';
 import { lock } from '@/app/auth-actions';
 import styles from './Header.module.css';
@@ -14,6 +14,7 @@ export default function Header({
   return (
     <header className={styles.header}>
       <Link className={styles.brand} href="/">
+        <Orbit size={24} strokeWidth={1.4} aria-hidden="true" />
         Caelum
       </Link>
       {chartReady && <PrimaryNavigation />}

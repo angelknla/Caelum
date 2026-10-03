@@ -1,18 +1,19 @@
 import Header from '@components/Header/Header';
 import type { Metadata } from 'next';
-import { Cormorant_Garamond, Manrope } from 'next/font/google';
+import { Cormorant_Garamond, Manrope, Space_Grotesk } from 'next/font/google';
 import type { ReactNode } from 'react';
 import { getBirthProfile, ProfileStorageError } from '@/lib/data/birth-profiles';
 import { getCurrentAccount } from '@/lib/session';
 import '@/styles/globals.css';
 
-const display = Cormorant_Garamond({
+const serif = Cormorant_Garamond({
   subsets: ['latin'],
   weight: ['400', '500'],
-  variable: '--font-display',
+  variable: '--font-serif',
   display: 'swap',
 });
 const interfaceFont = Manrope({ subsets: ['latin'], variable: '--font-ui', display: 'swap' });
+const display = Space_Grotesk({ subsets: ['latin'], variable: '--font-display', display: 'swap' });
 export const metadata: Metadata = { title: 'Caelum', description: 'Your sky. Your story.' };
 
 export default async function RootLayout({ children }: { children: ReactNode }) {
@@ -26,7 +27,7 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
     }
   }
   return (
-    <html lang="en" className={`${display.variable} ${interfaceFont.variable}`}>
+    <html lang="en" className={`${display.variable} ${serif.variable} ${interfaceFont.variable}`}>
       <body>
         <a className="skipLink" href="#main">
           Skip to content

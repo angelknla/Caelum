@@ -3,11 +3,6 @@
   margin-inline: auto;
 }
 
-.journal > * {
-  max-width: 46rem;
-  margin-inline: 0;
-}
-
 .toolbar {
   justify-content: space-between;
 }

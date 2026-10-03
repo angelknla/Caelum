@@ -1,10 +1,16 @@
 .arrival {
+  --text: #f5f6f2;
+  --muted: #bcbcb7;
+  --gold: #e4ff7a;
+  --accent: #e4ff7a;
+  color: var(--text);
   position: relative;
   min-height: 630px;
   isolation: isolate;
   border-bottom: 1px solid var(--border);
   overflow: hidden;
   background: #000;
+  border-radius: var(--radius);
   margin: -3rem -3rem 0;
 }
 .moon {
@@ -33,7 +39,7 @@
   margin: 2rem 0 1rem;
 }
 .subtitle {
-  font-family: var(--font-display), Georgia, serif;
+  font-family: var(--font-serif), Georgia, serif;
   font-size: 2.5rem;
   line-height: 1.2;
   margin: 0 0 2rem;
@@ -46,9 +52,9 @@
   min-height: 2.75rem;
   padding: 0.5rem 1rem;
   border: 1px solid var(--gold);
-  border-radius: 2px;
-  background: var(--surface);
-  color: var(--text);
+  border-radius: var(--radius);
+  background: var(--electric);
+  color: var(--ink);
   text-decoration: none;
   font-size: 0.85rem;
   font-weight: 600;
@@ -59,8 +65,8 @@
   flex-shrink: 0;
 }
 .begin:hover {
-  background: var(--gold);
-  color: var(--background);
+  background: var(--text);
+  color: var(--ink);
 }
 .returning {
   display: block;
@@ -140,7 +146,7 @@
     padding: 2rem 1.5rem 0.75rem;
   }
   .title h1 {
-    font-size: 76px;
+    font-size: 64px;
     margin: 1.25rem 0 0.75rem;
   }
   .subtitle {
