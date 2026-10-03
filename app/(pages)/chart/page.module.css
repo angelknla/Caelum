@@ -4,7 +4,7 @@
 }
 .banner {
   background: var(--ink);
-  border-radius: var(--radius);
+  border-radius: 0;
   margin-inline: calc((100% - 100vw) / 2);
   padding: 3rem max(3rem, calc((100vw - 64rem) / 2));
 }
@@ -16,6 +16,7 @@
 }
 @media (max-width: 650px) {
   .banner {
+    border-radius: 0;
     padding: 2rem 1.25rem;
   }
 }

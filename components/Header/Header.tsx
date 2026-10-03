@@ -1,4 +1,5 @@
-import { LogOut, Orbit } from 'lucide-react';
+import BrandMark from '@components/BrandMark/BrandMark';
+import { LogOut } from 'lucide-react';
 import Link from 'next/link';
 import { lock } from '@/app/auth-actions';
 import styles from './Header.module.css';
@@ -14,11 +15,11 @@ export default function Header({
   return (
     <header className={styles.header}>
       <Link className={styles.brand} href="/">
-        <Orbit size={24} strokeWidth={1.4} aria-hidden="true" />
+        <BrandMark />
         Caelum
       </Link>
       {chartReady && <PrimaryNavigation />}
-      <nav aria-label="Account">
+      <nav aria-label="Account" className={styles.account}>
         {signedIn ? (
           <form action={lock}>
             <button type="submit" title="Sign out" aria-label="Sign out">

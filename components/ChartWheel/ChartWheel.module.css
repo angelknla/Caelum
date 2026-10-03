@@ -235,6 +235,7 @@
 }
 @media (max-width: 650px) {
   .explorer {
+    border-radius: 0;
     margin-inline: -1.25rem;
     padding: 1.25rem;
   }

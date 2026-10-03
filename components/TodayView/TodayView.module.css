@@ -217,7 +217,7 @@
   --border: #393939;
   color: var(--text);
   background: var(--ink);
-  border-radius: var(--radius);
+  border-radius: 0;
   display: grid;
   grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
   gap: 2.5rem;
@@ -302,6 +302,7 @@
 }
 @media (max-width: 650px) {
   .observatory {
+    border-radius: 0;
     grid-template-columns: 1fr;
     margin-inline: -1.25rem;
     padding: 2rem 1.25rem;

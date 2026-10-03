@@ -1,5 +1,6 @@
+import Footer from '@components/Footer/Footer';
 import Header from '@components/Header/Header';
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
 import { Cormorant_Garamond, Manrope, Space_Grotesk } from 'next/font/google';
 import type { ReactNode } from 'react';
 import { getBirthProfile, ProfileStorageError } from '@/lib/data/birth-profiles';
@@ -14,7 +15,13 @@ const serif = Cormorant_Garamond({
 });
 const interfaceFont = Manrope({ subsets: ['latin'], variable: '--font-ui', display: 'swap' });
 const display = Space_Grotesk({ subsets: ['latin'], variable: '--font-display', display: 'swap' });
-export const metadata: Metadata = { title: 'Caelum', description: 'Your sky. Your story.' };
+export const metadata: Metadata = {
+  title: 'Caelum',
+  description: 'Your sky. Your story.',
+  manifest: '/manifest.webmanifest',
+  appleWebApp: { capable: true, title: 'Caelum', statusBarStyle: 'black-translucent' },
+};
+export const viewport: Viewport = { themeColor: '#141414' };
 
 export default async function RootLayout({ children }: { children: ReactNode }) {
   const signedIn = Boolean(await getCurrentAccount());
@@ -34,6 +41,7 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
         </a>
         <Header signedIn={signedIn} chartReady={chartReady} />
         <main id="main">{children}</main>
+        <Footer />
       </body>
     </html>
   );
