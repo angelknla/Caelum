@@ -10,12 +10,12 @@
   fill: none;
   stroke: var(--gold);
   stroke-width: 0.7;
-  opacity: 0.6;
+  opacity: 0.85;
 }
 .tick {
   stroke: var(--gold);
   stroke-width: 0.5;
-  opacity: 0.35;
+  opacity: 0.5;
 }
 .major {
   stroke: var(--gold);
@@ -42,14 +42,14 @@
   fill: var(--muted);
 }
 .harmony {
-  stroke: #829b90;
+  stroke: #91c4b4;
   stroke-width: 0.7;
-  opacity: 0.6;
+  opacity: 0.8;
 }
 .tension {
-  stroke: #c67f91;
+  stroke: var(--gold);
   stroke-width: 0.7;
-  opacity: 0.65;
+  opacity: 0.85;
 }
 .dot {
   fill: var(--gold);
@@ -57,4 +57,182 @@
 .angle {
   fill: var(--gold);
   font-size: 10px;
+}
+.explorer {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 15rem;
+  gap: 2.5rem;
+  align-items: start;
+}
+.artwork {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1;
+}
+.artwork .wheel {
+  width: 100%;
+}
+.bodyControl {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  width: 32px;
+  height: 32px;
+  min-height: 32px;
+  padding: 0;
+  display: grid;
+  place-items: center;
+  border: 1px solid transparent;
+  border-radius: 50%;
+  background: var(--background);
+  color: var(--text);
+  font-family: Georgia, serif;
+  font-size: 20px;
+}
+.bodyControl[aria-pressed="true"] {
+  border-color: var(--gold);
+  color: var(--gold);
+}
+.inspector {
+  padding-top: 1.5rem;
+  min-width: 0;
+}
+.eyebrow {
+  color: var(--gold);
+  text-transform: uppercase;
+  font-size: 0.7rem;
+}
+.label {
+  display: block;
+  font-size: 0.75rem;
+  color: var(--muted);
+  margin: 1rem 0 0.5rem;
+}
+.inspector select {
+  width: 100%;
+  min-height: 44px;
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text);
+  padding: 0.6rem;
+}
+.toggle {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  font-size: 0.8rem;
+  margin: 1rem 0;
+}
+.readout {
+  min-height: 18rem;
+}
+.readout h2 {
+  font-size: 2rem;
+  margin: 1.5rem 0 0.25rem;
+}
+.position {
+  color: var(--gold);
+  font-size: 1rem;
+}
+.readout dl {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+  font-size: 0.75rem;
+}
+.readout dt {
+  color: var(--muted);
+}
+.readout dd {
+  margin: 0;
+  text-align: right;
+}
+.readout h3 {
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+.readout ul {
+  list-style: none;
+  padding: 0;
+}
+.readout li button {
+  width: 100%;
+  text-align: left;
+  border: 0;
+  border-bottom: 1px solid var(--border);
+  border-radius: 0;
+  padding: 0.75rem 0;
+  background: transparent;
+  color: var(--text);
+  font-size: 0.8rem;
+}
+.readout small {
+  display: block;
+  margin-top: 0.4rem;
+  color: var(--muted);
+}
+.note {
+  color: var(--muted);
+  font-size: 0.8rem;
+}
+.houseControls {
+  border: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 0.4rem;
+  min-width: 0;
+}
+.houseControls legend {
+  font-size: 0.8rem;
+  margin-bottom: 0.75rem;
+}
+.houseControls button {
+  padding: 0;
+  min-height: 44px;
+  background: transparent;
+  color: var(--muted);
+  border-color: var(--border);
+  font-size: 0.75rem;
+}
+.houseControls button[aria-pressed="true"] {
+  color: var(--gold);
+  border-color: var(--gold);
+}
+@media (max-width: 1000px) {
+  .explorer {
+    grid-template-columns: 1fr;
+  }
+  .inspector {
+    border-left: 0;
+    border-top: 1px solid var(--border);
+    padding: 1.5rem 0 0;
+  }
+  .bodyControl {
+    width: 28px;
+    height: 28px;
+    min-height: 28px;
+    font-size: 17px;
+  }
+  .readout {
+    min-height: 0;
+  }
+}
+@media (min-width: 651px) and (max-width: 1000px) {
+  .inspector {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 2.5rem;
+    align-items: start;
+  }
+  .inspector > .eyebrow,
+  .inspector > .label,
+  .inspector > select,
+  .toggle,
+  .houseControls {
+    grid-column: 1;
+  }
+  .readout {
+    grid-column: 2;
+    grid-row: 1 / 7;
+  }
 }

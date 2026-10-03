@@ -1,0 +1,33 @@
+.journal {
+  width: min(100%, 64rem);
+  margin-inline: auto;
+}
+
+.journal > * {
+  max-width: 46rem;
+  margin-inline: 0;
+}
+
+.toolbar {
+  justify-content: space-between;
+}
+
+.toolbar > a {
+  min-height: 3rem;
+  font-size: 0.85rem;
+}
+
+.filter {
+  padding: 0;
+  margin: 0;
+}
+
+@media (max-width: 600px) {
+  .filter {
+    width: 100%;
+  }
+
+  .filter > label {
+    flex: 1;
+  }
+}

@@ -7,10 +7,10 @@
   align-items: center;
   justify-content: space-between;
   gap: 1rem;
-  margin-bottom: 1.5rem;
+  margin-bottom: 3rem;
 }
 .heading h1 {
-  font-size: 3rem;
+  font-size: 4rem;
   margin: 0.75rem 0;
 }
 .heading p:not(.eyebrow) {
@@ -23,7 +23,7 @@
   flex-shrink: 0;
   display: grid;
   place-items: center;
-  border: 1px solid var(--border);
+  color: var(--muted);
 }
 .eyebrow {
   color: var(--gold);

@@ -6,7 +6,17 @@
 
 .section h1 {
   margin-bottom: 2rem;
-  font-size: 1.75rem;
+  font-size: 3rem;
+  line-height: 1.05;
+  border-bottom: 1px solid var(--gold);
+  padding-bottom: 1.5rem;
+}
+.section {
+  margin: 3rem auto;
+}
+.form label {
+  color: var(--muted);
+  font-size: 0.85rem;
 }
 
 .form {
@@ -27,7 +37,7 @@
 
 .form input {
   width: 100%;
-  min-height: 2.75rem;
+  min-height: 3rem;
   padding: 0.65rem 0.75rem;
   border: 1px solid var(--border);
   border-radius: 4px;
@@ -37,9 +47,17 @@
 
 .form button[type="submit"] {
   margin-top: 0.75rem;
+  width: 100%;
+  background: var(--text);
+  color: var(--background);
+  border-color: var(--text);
 }
 
 .error {
   color: var(--error);
   overflow-wrap: anywhere;
+}
+.form button[type="submit"]:hover:not(:disabled) {
+  background: var(--gold);
+  border-color: var(--gold);
 }

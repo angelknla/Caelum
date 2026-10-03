@@ -1,0 +1,264 @@
+.page {
+  max-width: 64rem;
+  margin: 0 auto;
+}
+.heading {
+  padding: 1rem 0 2rem;
+  border-bottom: 1px solid var(--gold);
+}
+.eyebrow {
+  color: var(--gold);
+  font-size: 0.7rem;
+  text-transform: uppercase;
+}
+.heading h1 {
+  font-size: 4.75rem;
+  margin: 0.75rem 0;
+  line-height: 1.05;
+  max-width: 48rem;
+}
+.heading .eyebrow {
+  color: var(--gold);
+}
+.eyebrow::before {
+  content: "";
+  display: inline-block;
+  width: 1.5rem;
+  height: 1px;
+  background: var(--gold);
+  vertical-align: middle;
+  margin-right: 0.75rem;
+}
+.heading p {
+  color: var(--muted);
+  max-width: 42rem;
+}
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: end;
+  gap: 1rem;
+  padding: 1.5rem 0;
+}
+.field {
+  display: grid;
+  gap: 0.4rem;
+  font-size: 0.8rem;
+  min-width: 0;
+}
+.field input,
+.field select,
+.field textarea {
+  width: 100%;
+  padding: 0.7rem;
+  background: #1a1a19;
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  min-height: 3rem;
+  font: inherit;
+}
+.field textarea {
+  resize: vertical;
+  min-height: 10rem;
+}
+.search {
+  flex: 1;
+  min-width: 10rem;
+}
+.list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.item {
+  padding: 1.5rem 0;
+  border-bottom: 1px solid var(--border);
+}
+.item h2 {
+  font-size: 2.25rem;
+  margin: 0.5rem 0;
+}
+.item p {
+  color: var(--muted);
+  line-height: 1.8;
+  max-width: 45rem;
+  font-size: 0.9rem;
+}
+.item a {
+  text-decoration: none;
+}
+.item a:hover {
+  color: var(--text);
+}
+.libraryList {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  column-gap: 3rem;
+}
+.libraryList .item {
+  padding: 2rem 0;
+}
+.libraryList h2 a {
+  color: var(--text);
+}
+.libraryList h2 a:hover {
+  color: var(--gold);
+}
+.libraryList .item p {
+  max-width: 30rem;
+}
+.tag {
+  font-size: 0.7rem;
+  color: var(--gold);
+}
+.prose {
+  padding: 2rem 0;
+  font-family: var(--font-display), Georgia, serif;
+  font-size: 1.65rem;
+  max-width: 45rem;
+  line-height: 1.6;
+}
+.evidence {
+  padding: 1.5rem 0;
+  border-top: 1px solid var(--border);
+}
+.evidence h2 {
+  font-size: 2rem;
+}
+.evidence li,
+.evidence p {
+  color: var(--muted);
+  line-height: 1.8;
+}
+.prompt {
+  margin: 1.5rem 0;
+  color: var(--gold);
+  border-left: 1px solid var(--gold);
+  padding-left: 1rem;
+}
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+}
+.form {
+  display: grid;
+  gap: 1.5rem;
+  padding: 2rem 0;
+  width: min(100%, 46rem);
+  margin: 0 auto;
+}
+.form > label:not(.field) {
+  display: flex;
+  align-items: start;
+  gap: 0.7rem;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+.form > label:not(.field) input {
+  margin: 0.2rem 0 0;
+}
+.field {
+  color: var(--muted);
+}
+.field input:focus,
+.field select:focus,
+.field textarea:focus {
+  border-color: var(--gold);
+}
+.toolbar button {
+  min-height: 3rem;
+}
+.actions {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.actions button,
+.actions a {
+  display: inline-flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+.form .actions button[type="submit"] {
+  background: var(--text);
+  color: var(--background);
+  border-color: var(--text);
+}
+.form .actions button[type="submit"]:hover:not(:disabled) {
+  background: var(--gold);
+  border-color: var(--gold);
+}
+.error {
+  color: var(--error);
+  font-size: 0.85rem;
+}
+.muted {
+  color: var(--muted);
+  font-size: 0.8rem;
+}
+.delete {
+  background: transparent;
+  color: var(--muted);
+  border-color: var(--border);
+  padding: 0.6rem;
+}
+.row {
+  display: flex;
+  justify-content: space-between;
+  align-items: start;
+  gap: 1rem;
+}
+.body {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+.tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  padding: 1rem 0;
+}
+.tabs a[aria-current="page"] {
+  color: var(--text);
+}
+.tabs a {
+  min-height: 2.75rem;
+  display: inline-flex;
+  align-items: center;
+  font-size: 0.85rem;
+}
+.row > :first-child {
+  min-width: 0;
+}
+.row .actions {
+  flex-shrink: 0;
+}
+@media (max-width: 650px) {
+  .heading h1 {
+    font-size: 2.75rem;
+  }
+  .grid {
+    grid-template-columns: 1fr;
+  }
+  .toolbar {
+    gap: 0.85rem;
+  }
+  .toolbar .search {
+    flex-basis: 100%;
+  }
+  .row {
+    flex-wrap: wrap;
+  }
+  .heading {
+    padding-top: 0;
+  }
+  .prose {
+    font-size: 1.4rem;
+  }
+  .libraryList {
+    grid-template-columns: 1fr;
+  }
+}

@@ -6,7 +6,7 @@
   display: flex;
   justify-content: space-between;
   gap: 1rem;
-  border-bottom: 1px solid var(--border);
+  border-bottom: 1px solid var(--gold);
   padding-bottom: 1.25rem;
   color: var(--muted);
   font-size: 0.75rem;
@@ -31,7 +31,7 @@
 }
 .fields {
   display: grid;
-  gap: 0.85rem;
+  gap: 1rem;
 }
 .fields label {
   font-size: 0.85rem;
@@ -148,6 +148,10 @@
   gap: 1.5rem;
   align-items: center;
   justify-content: space-between;
+  border-radius: 2px;
+  background: var(--text);
+  color: var(--background);
+  border-color: var(--text);
 }
 .back {
   display: grid;
@@ -164,6 +168,10 @@
   color: var(--error);
   overflow-wrap: anywhere;
 }
+.primary:hover:not(:disabled) {
+  background: var(--gold);
+  border-color: var(--gold);
+}
 @media (max-width: 600px) {
   .flow h1 {
     font-size: 2.5rem;
@@ -177,5 +185,11 @@
   }
   .eyebrow {
     margin-top: 2.5rem;
+  }
+  .coordinates {
+    grid-template-columns: 1fr;
+  }
+  .summary div {
+    grid-template-columns: 5rem minmax(0, 1fr);
   }
 }

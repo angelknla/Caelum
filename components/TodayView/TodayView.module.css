@@ -1,0 +1,200 @@
+.today {
+  max-width: 64rem;
+  margin: 0 auto;
+}
+.heading {
+  padding: 1rem 0 2rem;
+  border-bottom: 1px solid var(--gold);
+}
+.eyebrow {
+  color: var(--gold);
+  font-size: 0.7rem;
+  text-transform: uppercase;
+}
+.heading h1 {
+  font-size: 4.5rem;
+  margin: 0.75rem 0;
+}
+.heading > p:not(.eyebrow) {
+  color: var(--muted);
+  font-size: 0.8rem;
+}
+.heading a {
+  display: inline-block;
+  margin-top: 0.75rem;
+  font-size: 0.8rem;
+}
+.lunar {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  align-items: center;
+  gap: 4rem;
+  padding: 3rem 0 4rem;
+}
+.moon {
+  width: 100%;
+  aspect-ratio: 1;
+  max-width: 27rem;
+  display: block;
+}
+.lunar h2 {
+  font-size: 3rem;
+  margin: 0.6rem 0;
+}
+.moonPosition {
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+.lunar dl {
+  display: grid;
+  grid-template-columns: 8rem minmax(0, 1fr);
+  gap: 1rem;
+  margin-top: 1.5rem;
+  font-size: 0.8rem;
+}
+.lunar dt {
+  color: var(--muted);
+}
+.lunar dd {
+  margin: 0;
+}
+.lunar small {
+  display: block;
+  color: var(--muted);
+  margin-top: 0.3rem;
+}
+.focus {
+  display: grid;
+  grid-template-columns: 9rem minmax(0, 1fr);
+  gap: 2rem;
+  padding: 3rem 0;
+  border-top: 1px solid var(--border);
+}
+.focusLabel {
+  color: var(--gold);
+  font-size: 0.75rem;
+}
+.focusLabel span {
+  font-family: var(--font-display), Georgia, serif;
+  font-size: 3.5rem;
+  line-height: 1;
+}
+.focusLabel p {
+  margin: 0.5rem 0;
+}
+.focus h2 {
+  font-size: 2.75rem;
+  margin: 0 0 1rem;
+}
+.reflection {
+  max-width: 40rem;
+  line-height: 1.8;
+  font-size: 0.95rem;
+}
+.focus blockquote {
+  color: var(--gold);
+  border-left: 1px solid var(--gold);
+  padding-left: 1rem;
+  margin: 1.5rem 0;
+  font-family: var(--font-display), Georgia, serif;
+  font-size: 1.8rem;
+}
+.focus summary,
+.record summary {
+  color: var(--gold);
+  font-size: 0.75rem;
+  cursor: pointer;
+}
+.focus ul,
+.record p {
+  color: var(--muted);
+  font-size: 0.8rem;
+  line-height: 1.8;
+  overflow-wrap: anywhere;
+}
+.record {
+  border-top: 1px solid var(--border);
+  padding: 2rem 0;
+  font-size: 0.8rem;
+}
+.record details {
+  margin-bottom: 1.5rem;
+}
+.secondary {
+  border-top: 1px solid var(--border);
+}
+.secondary > summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1.25rem 0;
+  color: var(--text);
+  cursor: pointer;
+  font-family: var(--font-display), Georgia, serif;
+  font-size: 1.6rem;
+}
+.secondary > summary::after {
+  content: "+";
+  color: var(--gold);
+  font-family: var(--font-ui), sans-serif;
+  font-size: 1rem;
+}
+.secondary[open] > summary::after {
+  content: "-";
+}
+.secondary .focus {
+  border: 0;
+  padding-top: 1rem;
+}
+.focus a {
+  display: inline-block;
+  font-size: 0.8rem;
+  margin: 0.5rem 0 1rem;
+  text-underline-offset: 0.3rem;
+}
+@media (min-width: 651px) and (max-width: 950px) {
+  .lunar {
+    gap: 2rem;
+  }
+  .lunar dl {
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+  }
+}
+@media (max-width: 650px) {
+  .heading h1 {
+    font-size: 3rem;
+  }
+  .lunar {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    padding: 2rem 0 2.5rem;
+  }
+  .moon {
+    max-width: 300px;
+    justify-self: center;
+  }
+  .lunar h2 {
+    font-size: 2.5rem;
+  }
+  .focus h2 {
+    font-size: 2rem;
+  }
+  .lunar dl {
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+  }
+  .lunar dd {
+    margin-bottom: 0.75rem;
+  }
+  .focus {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+  }
+  .focusLabel {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+}

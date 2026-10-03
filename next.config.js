@@ -13,7 +13,13 @@ if (process.env.SUPABASE_URL) {
 module.exports = {
   reactStrictMode: true,
   serverExternalPackages: ['sweph'],
-  experimental: { serverActions: { bodySizeLimit: '6mb' } },
+  experimental: {
+    serverActions: { bodySizeLimit: '6mb' },
+    // Turbopack's build cache serializes the build-time env snapshot into
+    // .next/cache/turbopack/*.sst, secret values included. Netlify's secrets
+    // scanning fails the build on that, so keep the cache off.
+    turbopackFileSystemCacheForBuild: false,
+  },
   images: {
     formats: ['image/avif', 'image/webp'],
     deviceSizes: [640, 750, 828, 1080, 1200, 1920],

@@ -11,7 +11,7 @@ import styles from './BirthFlow.module.css';
 const steps = ['Date', 'Time', 'Place', 'Your sky'];
 const empty: BirthInput = { date: '', time: '', timeZone: '', disambiguation: 'reject', place: '', latitude: 0, longitude: 0, placeSource: 'manual' };
 
-export default function BirthFlow({ initial }: { initial?: BirthInput }) {
+export default function BirthFlow({ initial, save = submitBirth, subject }: { initial?: BirthInput; save?: (birth: BirthInput, draftOnly?: boolean) => Promise<{ error?: string }>; subject?: string }) {
   const [step, setStep] = useState(0);
   const [birth, setBirth] = useState<BirthInput>(initial ?? empty);
   const [query, setQuery] = useState(initial?.place ?? '');
@@ -54,8 +54,8 @@ export default function BirthFlow({ initial }: { initial?: BirthInput }) {
       <nav className={styles.progress} aria-label={`Step ${step + 1} of 4`}>
         {steps.map((label, index) => <span key={label} className={index === step ? styles.active : ''} aria-current={index === step ? 'step' : undefined}>{String(index + 1).padStart(2, '0')} <span>{label}</span></span>)}
       </nav>
-      <p className={styles.eyebrow}>The sky / Your beginning</p>
-      <h1 ref={heading} tabIndex={-1}>{titles[step]}</h1>
+      <p className={styles.eyebrow}>The sky / {subject ?? 'Your beginning'}</p>
+      <h1 ref={heading} tabIndex={-1}>{subject ? ['Birth date', 'Birth time', 'Birthplace', 'Confirm birth details'][step] : titles[step]}</h1>
       <form onSubmit={event => {
         event.preventDefault();
         if (step < 3) {
@@ -63,7 +63,7 @@ export default function BirthFlow({ initial }: { initial?: BirthInput }) {
           move(step + 1);
         } else {
           startTransition(async () => {
-            try { const result = await submitBirth(birth); setError(result.error ?? ''); }
+            try { const result = await save(birth); setError(result.error ?? ''); }
             catch (failure) { if (failure instanceof Error && failure.message === 'NEXT_REDIRECT') throw failure; setError('Could not save. Check your connection and try again.'); }
           });
         }
@@ -97,7 +97,7 @@ export default function BirthFlow({ initial }: { initial?: BirthInput }) {
           {step === 3 && <dl className={styles.summary}><div><dt>Date</dt><dd>{birth.date}</dd></div><div><dt>Time</dt><dd>{birth.time ?? 'Unknown'} {birth.time && '(local)'}</dd></div><div><dt>Place</dt><dd>{birth.place}</dd></div><div><dt>Timezone</dt><dd>{birth.timeZone}</dd></div><div><dt>Chart</dt><dd>Tropical / Placidus</dd></div></dl>}
           <div className={styles.actions}>{step > 0 ? <button type="button" className={styles.back} onClick={() => move(step - 1)} title="Previous step" aria-label="Previous step"><ArrowLeft size={20} /></button> : <Link href="/" className={styles.back} title="Return to arrival" aria-label="Return to arrival"><ArrowLeft size={20} /></Link>}<button type="submit" className={styles.primary}>{pending ? 'Calculating...' : step === 3 ? birth.time === null ? 'Save my beginning' : 'Reveal my sky' : 'Continue'}<ArrowRight size={18} /></button></div>
           {error && <p role="alert" className={styles.error}>{error}</p>}
-          {step === 3 && birth.time !== null && error.includes('Placidus') && <button type="button" className={styles.textButton} onClick={() => startTransition(async () => { const result = await submitBirth(birth, true); setError(result.error ?? ''); })}>Save details without a chart</button>}
+          {step === 3 && birth.time !== null && error.includes('Placidus') && <button type="button" className={styles.textButton} onClick={() => startTransition(async () => { const result = await save(birth, true); setError(result.error ?? ''); })}>Save details without a chart</button>}
         </fieldset>
       </form>
     </section>

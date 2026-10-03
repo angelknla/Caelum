@@ -1,6 +1,6 @@
 # Caelum
 
-Local Phase 1 astrology prototype. Next.js App Router, TypeScript, CSS Modules, Yarn Classic, custom account login, Supabase database, and server-only Swiss Ephemeris.
+Local astrology prototype with core workflows for Phases 1 through 5. Next.js App Router, TypeScript, CSS Modules, Yarn Classic, custom account login, Supabase database, and server-only Swiss Ephemeris. People/Journal require the additional migration below.
 
 ## Local Setup
 
@@ -36,7 +36,33 @@ The app runs locally, but the existing Supabase project stores records in the cl
 
 Supported birth dates: 1900 through today, up to 2099. Tropical/geocentric/Placidus only in this phase. City-centre coordinates and historical timezone records are not universally exact; manual correction is available.
 
-Today, an interactive wheel inspector, deeper chart DNA, live transits, People, Journal, and AI are later phases. They are not shown as working features or backed by fabricated data.
+## Phase 2
+
+- Keyboard-accessible wheel body controls, body/angle selector, house inspector, aspect visibility, and selected-body connections. Exact calculated longitudes remain unchanged.
+- Chart DNA: weighted elements, modalities, sign emphasis, planet counts by house, major geometric configurations, and sign-based stelliums. The scoring method and supporting placements are visible; these are interpretive conventions, not scientific personality measures.
+- First reflection grounded in the tightest major planet-to-planet natal aspect, with an explicit fallback when none exists.
+- Today: four evidence-backed focal sections, real current-sky positions and lunar illumination, and numerically solved next exact lunar phase and sign ingress. Sampled transits use a maximum 2-degree orb and fixed natal targets; quiet states do not invent contacts.
+- Today and Chart navigation appears only for complete charts. Returning users open Today; drafts return to Chart. Birth edits invalidate the current route data. No additional SQL migration is required.
+
+Today is a snapshot calculated at page request, not an automatically updating all-day forecast. Dates are displayed in the saved birth timezone, not a detected current location. Moon artwork is a schematic illumination mask over the credited photograph, not an observer-oriented sky image. Interpretations use transparent deterministic rules. No daily logs or extra personal records are stored automatically.
+
+## Phase 3: Explore
+
+Searchable authored reference entries for signs, planets/points, houses, and major aspects. Each entry shows matching evidence from the verified user's saved chart, with explicit empty states. No remote content service is used.
+
+## Phase 4: Calendar & Outlook
+
+`/calendar` provides 7/30-day date ranges, previous/next navigation, event filters, exact lunar phases and ingresses, solved apparent-motion stations, initial retrograde state, and closest-contact reflections. Non-lunar personal transit windows use six-hour samples and a two-degree threshold. Their edges and closest sampled times are explicitly approximate, not exact transit peaks. Windows are clipped to the selected range. No deterministic event predictions, invented dates, or shared personal forecast cache.
+
+## Phase 5: People & Journal
+
+In the existing Supabase SQL editor, create one more query named `caelum_phase5`, paste `supabase/phase5.sql`, and Run. Keep the original queries. This adds only `people` and `journal_entries`; no account/Auth changes are needed. Until applied, the list screens report unavailable storage instead of showing fake records.
+
+People: consent-confirmed birth details, city search/manual coordinates, draft handling, calculated charts, edit/delete, and evidence-based chart comparisons. Comparisons use five major planet-to-planet aspects within three degrees, without compatibility scores or applying/separating claims between birth moments. Stored charts are invalidated when engine/data provenance changes.
+
+Journal: create/read/edit/delete, dated entries, comma-separated tags, tag filtering and pagination, links from Today prompts, and optional original save-time Moon snapshots. Editing preserves the original snapshot. A snapshot is not retroactively calculated for an entry's date. Records remain in the existing cloud Supabase project, not browser localStorage. Each read/update/delete filters by the verified member ID; browser record IDs never establish ownership. Service-role access still requires this server authorization boundary.
+
+The AGPL source-offer, authentication/security review, generated-asset packaging, native runtime support, database grants, and deployment validation remain launch prerequisites. This implementation does not deploy the app or change repository visibility.
 
 ## Verification
 
@@ -51,9 +77,15 @@ Calculation fixtures come from standalone Astrodienst `swetest` compiled against
 
 Live database grants and account separation must also be checked against the Supabase project after applying the migration. Unit query mocks are not proof of deployed RLS. No automatic migration or live account changes are made by the tests.
 
+## Project License
+
+Caelum's original application code is licensed under the GNU Affero General Public License, version 3 only (`AGPL-3.0-only`). See `LICENSE` for the complete terms. Third-party dependencies, data, and artwork retain their respective licenses below.
+
+The free AGPL path has been selected for Swiss Ephemeris. Before activating a hosted service, provide a prominent source-access offer to users interacting with it and make the corresponding source for the deployed version available under the applicable terms, including build instructions and required license notices. A link to an inaccessible private repository is not sufficient. Repository visibility has not been changed; source delivery must be resolved before launch. Never include environment secrets, production databases, or personal records in the source distribution.
+
 ## Third-Party Licenses
 
-Swiss Ephemeris and `sweph@2.10.3-8` are used under their free AGPL option for this private local prototype. Data is pinned to upstream revision `aacf962d19d79f8bc921dbcdaacf306d85be1917`; `ephemeris/manifest.json` records checksums, and `ephemeris/LICENSE` retains upstream terms. Before distribution or opening a public service, review and satisfy the applicable AGPL source obligations or obtain appropriate professional licensing / replace the engine. Running it server-side does not waive these obligations. Never publish secrets or personal records with source code.
+Swiss Ephemeris and `sweph@2.10.3-8` are used under their free AGPL option. Data is pinned to upstream revision `aacf962d19d79f8bc921dbcdaacf306d85be1917`; `ephemeris/manifest.json` records checksums, and `ephemeris/LICENSE` retains upstream terms. Running calculations server-side does not waive source-sharing obligations.
 
 Moon photograph: Gregory H. Revera, [FullMoon2010](https://commons.wikimedia.org/wiki/File:FullMoon2010.jpg), [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0/). Original image retained, displayed responsively. Attribution appears on the arrival screen.
 

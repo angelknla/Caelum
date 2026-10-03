@@ -9,6 +9,9 @@
 }
 .profile h1 {
   font-size: 3.5rem;
+  line-height: 1.05;
+  padding-bottom: 2rem;
+  border-bottom: 1px solid var(--gold);
 }
 .profile fieldset {
   border: 0;
@@ -69,9 +72,16 @@
   display: inline-flex;
   gap: 1rem;
   align-items: center;
+  background: var(--text);
+  color: var(--background);
+  border-color: var(--text);
 }
 .error {
   color: var(--error);
+}
+.actions button:hover:not(:disabled) {
+  background: var(--gold);
+  border-color: var(--gold);
 }
 @media (max-width: 600px) {
   .profile h1 {

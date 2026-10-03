@@ -1,0 +1,151 @@
+.dna,
+.insight {
+  border-top: 1px solid var(--border);
+  padding: 2.5rem 0;
+  scroll-margin-top: 2rem;
+}
+.eyebrow {
+  color: var(--gold);
+  font-size: 0.7rem;
+  text-transform: uppercase;
+}
+.dna h2,
+.insight h2 {
+  font-size: 3rem;
+  margin: 1rem 0 2rem;
+}
+.distributions,
+.emphasis {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3rem;
+}
+.dna h3 {
+  font-size: 1.75rem;
+  font-weight: 400;
+}
+.row {
+  margin-bottom: 1.25rem;
+}
+.rowHeading {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.85rem;
+}
+.rowHeading span:last-child {
+  color: var(--gold);
+}
+.row meter {
+  display: block;
+  width: 100%;
+  height: 12px;
+  margin: 0.5rem 0;
+}
+.row meter::-webkit-meter-bar {
+  background: var(--border);
+  border: 0;
+  border-radius: 0;
+}
+.row meter::-webkit-meter-optimum-value {
+  background: var(--gold);
+}
+.row meter::-moz-meter-bar {
+  background: var(--gold);
+}
+.row p {
+  margin: 0.25rem 0;
+  color: var(--muted);
+  font-size: 0.7rem;
+}
+.emphasis ol {
+  list-style: none;
+  padding: 0;
+}
+.emphasis li {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 0.5rem;
+  padding: 1rem 0;
+  border-bottom: 1px solid var(--border);
+}
+.emphasis strong {
+  font-size: 0.9rem;
+  font-weight: 400;
+}
+.emphasis span {
+  color: var(--gold);
+  font-size: 0.75rem;
+}
+.emphasis small {
+  grid-column: 1 / -1;
+  color: var(--muted);
+  font-size: 0.7rem;
+}
+.patterns {
+  margin-top: 2rem;
+}
+.patterns details,
+.method {
+  padding: 1rem 0;
+  border-bottom: 1px solid var(--border);
+}
+.patterns summary {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.5rem;
+  cursor: pointer;
+}
+.patterns summary span {
+  color: var(--muted);
+  font-size: 0.75rem;
+}
+.patterns p,
+.patterns ul,
+.method p,
+.insight ul {
+  color: var(--muted);
+  font-size: 0.85rem;
+  line-height: 1.8;
+}
+.method summary,
+.insight summary {
+  font-size: 0.8rem;
+  color: var(--gold);
+  cursor: pointer;
+}
+.insight {
+  padding: 3rem 0;
+  margin-bottom: 3rem;
+}
+.prose {
+  max-width: 46rem;
+  font-family: var(--font-display), Georgia, serif;
+  font-size: 1.6rem;
+}
+.insight blockquote {
+  margin: 2rem 0;
+  max-width: 40rem;
+  color: var(--gold);
+  font-size: 1rem;
+  border-left: 1px solid var(--gold);
+  padding-left: 1.25rem;
+}
+.insight > a {
+  display: inline-block;
+  margin-top: 2rem;
+  font-size: 0.85rem;
+}
+@media (max-width: 600px) {
+  .distributions,
+  .emphasis {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  .dna h2,
+  .insight h2 {
+    font-size: 2.5rem;
+  }
+  .insight {
+    padding: 2rem 0;
+  }
+}

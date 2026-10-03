@@ -1,11 +1,11 @@
 :root {
-  --background: #151515;
-  --surface: #202020;
-  --text: #eeeae2;
-  --muted: #b1ada5;
-  --border: #45433f;
-  --gold: #c7b184;
-  --accent: #c7b184;
+  --background: #101211;
+  --surface: #1c211f;
+  --text: #f6f3ec;
+  --muted: #bcbfb7;
+  --border: #3b423d;
+  --gold: #d7bc82;
+  --accent: #d7bc82;
   --wine: #6e3948;
   --error: #f0a7b3;
   color-scheme: dark;
@@ -25,9 +25,9 @@ body {
 }
 
 main {
-  width: min(100%, 76rem);
+  width: min(100%, 80rem);
   margin: 0 auto;
-  padding: 2rem 1.25rem;
+  padding: 3rem 3rem 5rem;
 }
 
 h1,
@@ -41,6 +41,8 @@ h3 {
 
 a {
   color: var(--accent);
+  text-underline-offset: 0.3em;
+  text-decoration-thickness: 1px;
 }
 
 button,
@@ -53,9 +55,9 @@ button {
   min-height: 2.75rem;
   padding: 0.65rem 1rem;
   border: 1px solid var(--accent);
-  border-radius: 4px;
-  background: var(--accent);
-  color: var(--background);
+  border-radius: 2px;
+  background: var(--surface);
+  color: var(--text);
   cursor: pointer;
 }
 
@@ -70,7 +72,39 @@ button:disabled {
 }
 
 button:hover:not(:disabled) {
-  filter: brightness(1.1);
+  background-color: #303a34;
+}
+button[type="submit"]:hover:not(:disabled) {
+  border-color: var(--gold);
+}
+input[type="checkbox"] {
+  width: 1rem;
+  height: 1rem;
+  flex-shrink: 0;
+  vertical-align: middle;
+}
+input,
+select,
+textarea {
+  max-width: 100%;
+}
+textarea {
+  font: inherit;
+}
+summary {
+  min-height: 2.75rem;
+  padding: 0.65rem 0;
+}
+button,
+a,
+input,
+select,
+textarea {
+  -webkit-tap-highlight-color: transparent;
+}
+body {
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
 }
 button svg {
   flex-shrink: 0;
@@ -97,7 +131,22 @@ select {
 }
 @media (max-width: 600px) {
   main {
-    padding: 1.25rem;
+    padding: 1.5rem 1.25rem 4rem;
+  }
+}
+@media (prefers-reduced-motion: no-preference) {
+  main > article {
+    animation: pageArrival 600ms ease-out both;
+  }
+  @keyframes pageArrival {
+    from {
+      opacity: 0;
+      transform: translateY(6px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
 }
 @media (prefers-reduced-motion: reduce) {

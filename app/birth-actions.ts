@@ -41,6 +41,7 @@ export async function submitBirth(
   }
   revalidatePath('/');
   revalidatePath('/chart');
+  revalidatePath('/today');
   redirect('/chart');
 }
 

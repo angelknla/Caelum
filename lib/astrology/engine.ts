@@ -104,27 +104,65 @@ export function calculateAspects(positions: Placement[]): Aspect[] {
   return aspects.sort((first, second) => first.orb - second.orb);
 }
 
-export function calculateNatal(input: BirthInput): NatalChart {
-  const resolved = resolveBirthTime(input);
+function ephemerisTime(date: Date): [number, number] {
+  if (
+    !Number.isFinite(date.getTime()) ||
+    date.getUTCFullYear() < 1900 ||
+    date.getUTCFullYear() > 2099
+  )
+    throw new Error('Sky calculations support dates from 1900 through 2099.');
   const directory = path.join(process.cwd(), 'ephemeris');
   for (const file of ['sepl_18.se1', 'semo_18.se1', 'seas_18.se1']) {
     if (!existsSync(path.join(directory, file)))
       throw new Error('Ephemeris data is missing. Run yarn setup:ephemeris.');
   }
   sweph.set_ephe_path(directory);
-  const date = new Date(resolved.utc);
   const dates = sweph.utc_to_jd(
     date.getUTCFullYear(),
     date.getUTCMonth() + 1,
     date.getUTCDate(),
     date.getUTCHours(),
     date.getUTCMinutes(),
-    date.getUTCSeconds(),
+    date.getUTCSeconds() + date.getUTCMilliseconds() / 1000,
     constants.SE_GREG_CAL
   );
   if (dates.flag < 0)
     throw new Error('The birth date could not be converted to astronomical time.');
-  const [et, ut] = dates.data;
+  return dates.data;
+}
+
+export function calculateSky(at: Date) {
+  const [et, ut] = ephemerisTime(at);
+  const flags = constants.SEFLG_SWIEPH | constants.SEFLG_SPEED;
+  const positions = bodies.map(([id, code]) => {
+    const result = sweph.calc(et, code, flags);
+    if (
+      result.flag < 0 ||
+      !result.data.every(Number.isFinite) ||
+      !(result.flag & constants.SEFLG_SWIEPH)
+    )
+      throw new Error(`Swiss Ephemeris could not calculate ${id} from its data files.`);
+    return placement(id, result.data[0], result.data[1], result.data[3]);
+  });
+  const moon = sweph.pheno(et, constants.SE_MOON, constants.SEFLG_SWIEPH);
+  if (moon.flag < 0 || !Number.isFinite(moon.data[1]) || moon.data[1] < 0 || moon.data[1] > 1)
+    throw new Error('Could not calculate lunar illumination.');
+  const sun = positions.find((body) => body.id === 'Sun')!;
+  const lunar = positions.find((body) => body.id === 'Moon')!;
+  return {
+    at: at.toISOString(),
+    julianDayUT: ut,
+    positions,
+    elongation: normalize(lunar.longitude - sun.longitude),
+    illumination: moon.data[1],
+    engine: ENGINE_VERSION,
+    dataRevision: DATA_REVISION,
+  };
+}
+
+export function calculateNatal(input: BirthInput): NatalChart {
+  const resolved = resolveBirthTime(input);
+  const [et, ut] = ephemerisTime(new Date(resolved.utc));
   const houses = sweph.houses_ex2(ut, 0, input.latitude, input.longitude, 'P');
   if (houses.flag < 0)
     throw new Error(
