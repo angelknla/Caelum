@@ -11,6 +11,7 @@
     "setup:places": "node scripts/setup-places.mjs",
     "dev": "next dev",
     "build": "next build",
+    "check:runtime": "node scripts/verify-runtime-assets.mjs",
     "start": "next start",
     "lint": "biome lint .",
     "format": "biome check --write",

@@ -1,6 +1,9 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 vi.mock('server-only', () => ({}));
+vi.mock('sweph', () => {
+  throw new Error('Profile storage must not load the native calculation engine.');
+});
 const mocks = vi.hoisted(() => ({
   account: vi.fn(),
   from: vi.fn(),

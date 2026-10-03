@@ -13,6 +13,17 @@ if (process.env.SUPABASE_URL) {
 module.exports = {
   reactStrictMode: true,
   serverExternalPackages: ['sweph'],
+  outputFileTracingIncludes: {
+    '/*': [
+      './node_modules/sweph/prebuilds/**/*.node',
+      './node_modules/sweph/build/Release/*.node',
+      './node_modules/node-gyp-build/**/*',
+      './ephemeris/*.se1',
+      './ephemeris/manifest.json',
+      './ephemeris/LICENSE',
+      './data/places*.json',
+    ],
+  },
   experimental: {
     serverActions: { bodySizeLimit: '6mb' },
     // Turbopack's build cache serializes the build-time env snapshot into

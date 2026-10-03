@@ -4,9 +4,9 @@ import path from 'node:path';
 import sweph from 'sweph';
 import { resolveBirthTime } from '@/lib/astrology/birth';
 import type { Aspect, BirthInput, NatalChart, Placement } from '@/types/chart';
+import { DATA_REVISION, ENGINE_VERSION } from './provenance';
 
-export const DATA_REVISION = 'aacf962d19d79f8bc921dbcdaacf306d85be1917';
-export const ENGINE_VERSION = 'sweph@2.10.3-8';
+export { DATA_REVISION, ENGINE_VERSION } from './provenance';
 export const SIGNS = [
   'Aries',
   'Taurus',

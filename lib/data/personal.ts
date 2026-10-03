@@ -1,5 +1,5 @@
 import 'server-only';
-import { DATA_REVISION, ENGINE_VERSION } from '@/lib/astrology/engine';
+import { DATA_REVISION, ENGINE_VERSION } from '@/lib/astrology/provenance';
 import { getCurrentAccount } from '@/lib/session';
 import { getSupabase } from '@/lib/supabase/server';
 import type { JournalEntry, Person } from '@/types/personal';

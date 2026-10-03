@@ -64,6 +64,14 @@ Journal: create/read/edit/delete, dated entries, comma-separated tags, tag filte
 
 The AGPL source-offer, authentication/security review, generated-asset packaging, native runtime support, database grants, and deployment validation remain launch prerequisites. This implementation does not deploy the app or change repository visibility.
 
+## Netlify Runtime
+
+The Netlify build generates the pinned ephemeris files and GeoNames city data before building Next.js. Native `sweph` binaries and generated data are explicitly included in the server traces; `yarn check:runtime` fails the build if the target platform's native binary or required data is absent. Do not upload a local macOS build as a Linux function bundle.
+
+Netlify chooses the function Node version separately from the build version. A Node 26 build currently falls back to Node 24 functions unless a supported runtime is selected in the Netlify UI. The `sweph` package uses Node-API prebuilds; verify the deployed function log if native loading still fails. `AWS_LAMBDA_JS_RUNTIME`, if used, must be configured in Netlify's UI, not in the TOML file.
+
+Keep `APP_PASSCODE`, `SUPABASE_URL`, and `SUPABASE_SECRET_KEY` available to the Functions environment without committing them. After changing bundle settings, clear the Netlify build cache and redeploy. Deployment is not verified merely by a successful local build; inspect the SSR function log and test the deployed homepage, login, and calculation routes. The AGPL source-access obligation above remains a launch prerequisite.
+
 ## Verification
 
 ```sh
@@ -71,6 +79,7 @@ yarn test
 yarn typecheck
 yarn lint
 yarn build
+yarn check:runtime
 ```
 
 Calculation fixtures come from standalone Astrodienst `swetest` compiled against the binding's C sources, with pinned data and UTC conversion. Planet longitudes, houses, ascendant and midheaven are checked to 0.000001 degrees for Greenwich and Sydney. This validates the integration, not an independent astronomical algorithm. DST, ambiguous/missing clock times, polar failure, anonymous access rejection, two-account query ownership, and birth-flow interactions are covered.
@@ -91,4 +100,4 @@ Moon photograph: Gregory H. Revera, [FullMoon2010](https://commons.wikimedia.org
 
 Place data: [GeoNames](https://www.geonames.org/), [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/). Attribution appears beside birthplace search.
 
-Fonts: Cormorant Garamond and Manrope via `next/font/google`, under the SIL Open Font License. Netlify setup and deployment-runtime verification are deferred.
+Fonts: Cormorant Garamond and Manrope via `next/font/google`, under the SIL Open Font License. Netlify runtime verification must be performed after redeployment.

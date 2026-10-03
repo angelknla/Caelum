@@ -1,6 +1,10 @@
 [build]
-  command = "yarn build"
+  command = "yarn setup:ephemeris && yarn setup:places && yarn build && yarn check:runtime"
   publish = ".next"
 
 [build.environment]
   NODE_VERSION = "26.4.0"
+
+[functions]
+  external_node_modules = ["sweph", "node-gyp-build"]
+  included_files = ["ephemeris/**", "data/places*.json", "node_modules/sweph/prebuilds/**/*.node"]
