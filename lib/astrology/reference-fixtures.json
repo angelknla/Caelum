@@ -1,0 +1,64 @@
+{
+  "source": "Astrodienst swetest.c at aacf962d19d79f8bc921dbcdaacf306d85be1917, compiled against sweph 2.10.3-8 C sources; -utc, -eswe, -fPls, tropical Placidus",
+  "toleranceDegrees": 0.000001,
+  "fixtures": [
+    {
+      "name": "Greenwich J2000 UTC",
+      "date": "2000-01-01",
+      "time": "12:00",
+      "timeZone": "UTC",
+      "latitude": 51.4779,
+      "longitude": 0,
+      "positions": {
+        "Sun": 280.3689229,
+        "Moon": 223.3238009,
+        "Mercury": 271.8892834,
+        "Venus": 241.5657934,
+        "Mars": 327.9633057,
+        "Jupiter": 25.2530873,
+        "Saturn": 40.3956634,
+        "Uranus": 314.8091879,
+        "Neptune": 303.1930134,
+        "Pluto": 251.4547794,
+        "North node": 123.9540226,
+        "Lilith": 263.4643332,
+        "Chiron": 251.6176269
+      },
+      "houses": [
+        24.2694308, 61.1442029, 82.0222264, 99.6124561, 119.0635, 147.7029493, 204.2694308,
+        241.1442029, 262.0222264, 279.6124561, 299.0635, 327.7029493
+      ],
+      "ascendant": 24.2694308,
+      "midheaven": 279.6124561
+    },
+    {
+      "name": "Sydney winter 1990",
+      "date": "1990-07-01",
+      "time": "12:30",
+      "timeZone": "Australia/Sydney",
+      "latitude": -33.8688,
+      "longitude": 151.2093,
+      "positions": {
+        "Sun": 99.022069,
+        "Moon": 202.2498861,
+        "Mercury": 97.0366087,
+        "Venus": 67.2279885,
+        "Mars": 22.0971008,
+        "Jupiter": 109.3257391,
+        "Saturn": 293.0133321,
+        "Uranus": 277.5397228,
+        "Neptune": 283.3085867,
+        "Pluto": 225.1383635,
+        "North node": 307.6813905,
+        "Lilith": 236.6985638,
+        "Chiron": 107.6853755
+      },
+      "houses": [
+        206.4622046, 239.2341736, 263.7567963, 286.2279992, 311.0854063, 343.3500026, 26.4622046,
+        59.2341736, 83.7567963, 106.2279992, 131.0854063, 163.3500026
+      ],
+      "ascendant": 206.4622046,
+      "midheaven": 106.2279992
+    }
+  ]
+}

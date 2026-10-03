@@ -1,0 +1,47 @@
+{
+  "name": "caelum",
+  "version": "0.1.0",
+  "private": true,
+  "engines": {
+    "node": ">=26"
+  },
+  "scripts": {
+    "setup:ephemeris": "node scripts/setup-ephemeris.mjs",
+    "setup:places": "node scripts/setup-places.mjs",
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "biome lint .",
+    "format": "biome check --write",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage"
+  },
+  "dependencies": {
+    "@js-temporal/polyfill": "0.5.1",
+    "@supabase/supabase-js": "^2.117.1",
+    "lucide-react": "^1.51.0",
+    "next": "16.3.6",
+    "react": "19.3.0",
+    "react-dom": "19.3.0",
+    "server-only": "^0.0.1",
+    "sweph": "2.10.3-8"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "2.5.2",
+    "@testing-library/dom": "^10.4.0",
+    "@testing-library/jest-dom": "6.9.1",
+    "@testing-library/react": "^16.1.0",
+    "@testing-library/user-event": "^14.5.2",
+    "@types/node": "26.1.0",
+    "@types/react": "19.3.0",
+    "@types/react-dom": "19.3.0",
+    "@vitejs/plugin-react": "^4.3.4",
+    "@vitest/coverage-v8": "^2.1.8",
+    "jsdom": "^25.0.1",
+    "typescript": "7.0.2",
+    "vite": "^5.4.21",
+    "vitest": "^2.1.8"
+  }
+}

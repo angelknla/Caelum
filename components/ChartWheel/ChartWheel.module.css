@@ -1,0 +1,60 @@
+.wheel {
+  display: block;
+  width: min(100%, 44rem);
+  aspect-ratio: 1;
+  height: auto;
+  margin: 0 auto;
+  overflow: visible;
+}
+.ring {
+  fill: none;
+  stroke: var(--gold);
+  stroke-width: 0.7;
+  opacity: 0.6;
+}
+.tick {
+  stroke: var(--gold);
+  stroke-width: 0.5;
+  opacity: 0.35;
+}
+.major {
+  stroke: var(--gold);
+  stroke-width: 0.8;
+  opacity: 0.6;
+}
+.house {
+  stroke: var(--muted);
+  stroke-width: 0.6;
+  opacity: 0.35;
+}
+.sign {
+  font-size: 21px;
+  fill: var(--gold);
+  font-family: Georgia, serif;
+}
+.planet {
+  font-size: 21px;
+  fill: var(--text);
+  font-family: Georgia, serif;
+}
+.houseNumber {
+  font-size: 9px;
+  fill: var(--muted);
+}
+.harmony {
+  stroke: #829b90;
+  stroke-width: 0.7;
+  opacity: 0.6;
+}
+.tension {
+  stroke: #c67f91;
+  stroke-width: 0.7;
+  opacity: 0.65;
+}
+.dot {
+  fill: var(--gold);
+}
+.angle {
+  fill: var(--gold);
+  font-size: 10px;
+}

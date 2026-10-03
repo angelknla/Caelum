@@ -1,0 +1,19 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "Caelum local development",
+			"type": "shell",
+			"command": "source \"$HOME/.nvm/nvm.sh\" && nvm use && yarn dev --port 3002",
+			"isBackground": true,
+			"problemMatcher": []
+		},
+		{
+			"label": "Caelum local preview",
+			"type": "shell",
+			"command": "source \"$HOME/.nvm/nvm.sh\" && nvm use && yarn start --port 3002",
+			"isBackground": true,
+			"problemMatcher": []
+		}
+	]
+}

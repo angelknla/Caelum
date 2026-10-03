@@ -1,0 +1,30 @@
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  min-height: 5rem;
+  padding: 1rem max(1.25rem, calc((100% - 68rem) / 2));
+  border-bottom: 1px solid var(--border);
+}
+
+.brand {
+  font-family: var(--font-display), Georgia, serif;
+  font-size: 1.75rem;
+  color: var(--text);
+  text-decoration: none;
+}
+
+.header nav {
+  font-size: 0.8rem;
+}
+.header nav button {
+  display: grid;
+  place-items: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  padding: 0;
+  background: transparent;
+  color: var(--muted);
+  border-color: var(--border);
+}

@@ -1,0 +1,131 @@
+.chart {
+  width: min(100%, 64rem);
+  margin: 1rem auto 4rem;
+}
+.heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+.heading h1 {
+  font-size: 3rem;
+  margin: 0.75rem 0;
+}
+.heading p:not(.eyebrow) {
+  color: var(--muted);
+  font-size: 0.8rem;
+}
+.heading > a {
+  width: 3rem;
+  height: 3rem;
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--border);
+}
+.eyebrow {
+  color: var(--gold);
+  font-size: 0.7rem;
+  text-transform: uppercase;
+}
+.empty {
+  width: min(100%, 40rem);
+  margin: 4rem auto;
+}
+.empty h1 {
+  font-size: 3rem;
+}
+.empty p {
+  color: var(--muted);
+}
+.empty a {
+  display: inline-flex;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+.evidence {
+  border-top: 1px solid var(--border);
+  padding-top: 2rem;
+}
+.evidence h2 {
+  font-size: 2.5rem;
+}
+.tableWrap {
+  overflow-x: auto;
+}
+.evidence table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  font-size: 0.85rem;
+}
+.evidence caption {
+  text-align: left;
+  color: var(--muted);
+  margin-bottom: 1rem;
+  font-size: 0.75rem;
+}
+.evidence th,
+.evidence td {
+  border-bottom: 1px solid var(--border);
+  padding: 0.9rem 0.65rem;
+  white-space: nowrap;
+}
+.evidence thead th {
+  color: var(--muted);
+  font-weight: 400;
+}
+.evidence tbody th {
+  font-weight: 400;
+}
+.evidence details {
+  padding: 1.25rem 0;
+  border-bottom: 1px solid var(--border);
+}
+.evidence summary {
+  color: var(--gold);
+  cursor: pointer;
+}
+.aspects {
+  list-style: none;
+  padding: 0;
+}
+.aspects li {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+  padding: 0.75rem 0;
+  font-size: 0.85rem;
+}
+.aspects li span:last-child {
+  color: var(--muted);
+}
+.record {
+  display: grid;
+  grid-template-columns: 10rem 1fr;
+  gap: 1rem;
+  font-size: 0.8rem;
+}
+.record dt {
+  color: var(--muted);
+}
+.record dd {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+@media (max-width: 600px) {
+  .heading h1 {
+    font-size: 2.25rem;
+  }
+  .record {
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+  }
+  .record dd {
+    margin-bottom: 1rem;
+  }
+}

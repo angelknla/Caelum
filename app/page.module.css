@@ -1,0 +1,163 @@
+.arrival {
+  position: relative;
+  min-height: 630px;
+  isolation: isolate;
+  border-bottom: 1px solid var(--border);
+  overflow: hidden;
+  background: #000;
+  margin: -2rem -1.25rem 0;
+}
+.moon {
+  position: absolute;
+  z-index: 0;
+  width: min(65%, 660px);
+  height: auto;
+  right: 3%;
+  top: 35px;
+  object-fit: contain;
+}
+.title {
+  padding: 3.5rem 3.5rem 6rem;
+  position: relative;
+  z-index: 1;
+  width: 55%;
+}
+.eyebrow {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+.title h1 {
+  font-size: 108px;
+  line-height: 1;
+  margin: 2rem 0 1rem;
+}
+.subtitle {
+  font-family: var(--font-display), Georgia, serif;
+  font-size: 2.5rem;
+  line-height: 1.2;
+  margin: 0 0 2rem;
+}
+.begin {
+  display: inline-flex;
+  gap: 1rem;
+  align-items: center;
+  justify-content: center;
+  min-height: 2.75rem;
+  padding: 0.5rem 1rem;
+  border: 1px solid var(--gold);
+  border-radius: 2px;
+  background: var(--surface);
+  color: var(--text);
+  text-decoration: none;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+.begin svg {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+}
+.begin:hover {
+  background: var(--gold);
+  color: var(--background);
+}
+.returning {
+  display: block;
+  width: fit-content;
+  margin-top: 1.25rem;
+  font-size: 0.75rem;
+  color: var(--muted);
+}
+.caption {
+  position: absolute;
+  z-index: 1;
+  bottom: 1.5rem;
+  left: 3.5rem;
+  right: 3.5rem;
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  font-size: 0.6rem;
+  color: var(--muted);
+}
+.caption a {
+  color: var(--muted);
+}
+.next {
+  padding: 2.5rem 2rem 5rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem 3rem;
+  border-bottom: 1px solid var(--border);
+}
+.next > span {
+  grid-column: 1 / -1;
+}
+.next h2 {
+  font-size: 3rem;
+  line-height: 1.1;
+  margin: 0.5rem 0;
+}
+.next p {
+  color: var(--muted);
+  align-self: center;
+  font-size: 0.9rem;
+  max-width: 26rem;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .title {
+    animation: arrive 900ms ease-out both;
+  }
+  @keyframes arrive {
+    from {
+      opacity: 0;
+      transform: translateY(12px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+}
+@media (max-width: 700px) {
+  .arrival {
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    margin-top: -1.25rem;
+  }
+  .moon {
+    position: static;
+    order: 1;
+    align-self: center;
+    width: min(70%, 280px);
+    margin: 0.5rem 0 1.5rem;
+  }
+  .title {
+    order: 0;
+    width: 100%;
+    padding: 2rem 1.5rem 0.75rem;
+  }
+  .title h1 {
+    font-size: 76px;
+    margin: 1.25rem 0 0.75rem;
+  }
+  .subtitle {
+    font-size: 1.75rem;
+  }
+  .caption {
+    position: static;
+    order: 2;
+    padding: 0 1.5rem 1.25rem;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+  .next {
+    grid-template-columns: 1fr;
+    padding: 2rem 0.25rem;
+  }
+  .next h2 {
+    font-size: 2.5rem;
+  }
+}
