@@ -23,7 +23,7 @@
 .heading a {
   display: inline-block;
   margin-top: 0.75rem;
-  font-size: 0.8rem;
+  font-size: 1rem;
 }
 .lunar {
   display: grid;
@@ -72,7 +72,7 @@
 .lunarEvents summary {
   cursor: pointer;
   color: var(--text);
-  font-size: 0.8rem;
+  font-size: 1rem;
 }
 .focus {
   display: grid;
@@ -113,7 +113,7 @@
 .focus summary,
 .record summary {
   color: var(--gold);
-  font-size: 0.75rem;
+  font-size: 1rem;
   cursor: pointer;
 }
 .focus ul,
@@ -160,7 +160,7 @@
 }
 .focus a {
   display: inline-block;
-  font-size: 0.8rem;
+  font-size: 1rem;
   margin: 0.5rem 0 1rem;
   text-underline-offset: 0.3rem;
 }

@@ -22,7 +22,7 @@
 }
 .profile label {
   margin-top: 0.5rem;
-  font-size: 0.85rem;
+  font-size: 1rem;
 }
 .profile label span {
   color: var(--muted);
@@ -62,11 +62,12 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  flex-wrap: wrap;
   gap: 1rem;
   margin-top: 2rem;
 }
 .actions a {
-  font-size: 0.8rem;
+  font-size: 1rem;
 }
 .actions button {
   display: inline-flex;

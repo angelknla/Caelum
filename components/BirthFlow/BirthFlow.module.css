@@ -34,7 +34,7 @@
   gap: 1rem;
 }
 .fields label {
-  font-size: 0.85rem;
+  font-size: 1rem;
 }
 .fields input:not([type="checkbox"]),
 .fields select {
@@ -102,6 +102,7 @@
 }
 .textButton {
   width: fit-content;
+  font-size: 1rem;
   padding: 0.5rem 0;
   background: transparent;
   color: var(--gold);

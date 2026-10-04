@@ -124,7 +124,7 @@
 }
 .label {
   display: block;
-  font-size: 0.75rem;
+  font-size: 1rem;
   color: var(--muted);
   margin: 1rem 0 0.5rem;
 }
@@ -141,7 +141,7 @@
   display: flex;
   gap: 0.5rem;
   align-items: center;
-  font-size: 0.8rem;
+  font-size: 1rem;
   margin: 1rem 0;
 }
 .readout {
@@ -185,7 +185,7 @@
   padding: 0.75rem 0;
   background: transparent;
   color: var(--text);
-  font-size: 0.8rem;
+  font-size: 1rem;
 }
 .readout small {
   display: block;
@@ -218,7 +218,7 @@
   background: transparent;
   color: var(--muted);
   border-color: var(--border);
-  font-size: 0.75rem;
+  font-size: 1rem;
 }
 .houseControls button[aria-pressed="true"] {
   color: var(--ink);

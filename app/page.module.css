@@ -56,7 +56,7 @@
   background: var(--electric);
   color: var(--ink);
   text-decoration: none;
-  font-size: 0.85rem;
+  font-size: 1rem;
   font-weight: 600;
 }
 .begin svg {
@@ -72,7 +72,7 @@
   display: block;
   width: fit-content;
   margin-top: 1.25rem;
-  font-size: 0.75rem;
+  font-size: 1rem;
   color: var(--muted);
 }
 .caption {
@@ -89,6 +89,7 @@
 }
 .caption a {
   color: var(--muted);
+  font-size: 1rem;
 }
 .next {
   padding: 2.5rem 2rem 5rem;

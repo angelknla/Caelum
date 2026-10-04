@@ -43,7 +43,7 @@
 .field {
   display: grid;
   gap: 0.4rem;
-  font-size: 0.8rem;
+  font-size: 1rem;
   min-width: 0;
 }
 .field input,
@@ -252,7 +252,7 @@
   min-height: 2.75rem;
   display: inline-flex;
   align-items: center;
-  font-size: 0.85rem;
+  font-size: 1rem;
 }
 .row > :first-child {
   min-width: 0;
