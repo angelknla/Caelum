@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { lock } from '@/app/auth-actions';
 import styles from './Header.module.css';
 import PrimaryNavigation from './PrimaryNavigation';
+import ScrollHeader from './ScrollHeader';
 
 export default function Header({
   signedIn,
@@ -13,7 +14,7 @@ export default function Header({
   chartReady?: boolean;
 }) {
   return (
-    <header className={styles.header}>
+    <ScrollHeader>
       <Link className={styles.brand} href="/">
         <BrandMark />
         Caelum
@@ -30,6 +31,6 @@ export default function Header({
           <Link href="/login">Sign in</Link>
         )}
       </nav>
-    </header>
+    </ScrollHeader>
   );
 }
