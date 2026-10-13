@@ -4,6 +4,9 @@ import { renderToStaticMarkup } from 'react-dom/server';
 import { expect, it, vi } from 'vitest';
 
 vi.mock('server-only', () => ({}));
+vi.mock('@/app/auth-actions', () => ({ lock: vi.fn() }));
+vi.mock('@/app/birth-actions', () => ({ submitDetails: vi.fn() }));
+vi.mock('next/navigation', () => ({ usePathname: () => '/today' }));
 
 import ChartDNA from '@components/ChartDNA/ChartDNA';
 import dnaStyles from '@components/ChartDNA/ChartDNA.module.css';
@@ -11,7 +14,10 @@ import ChartReveal from '@components/ChartReveal/ChartReveal';
 import revealStyles from '@components/ChartReveal/ChartReveal.module.css';
 import ChartWheel from '@components/ChartWheel/ChartWheel';
 import wheelStyles from '@components/ChartWheel/ChartWheel.module.css';
+import Header from '@components/Header/Header';
 import headerStyles from '@components/Header/Header.module.css';
+import ProfileDetails from '@components/ProfileDetails/ProfileDetails';
+import profileStyles from '@components/ProfileDetails/ProfileDetails.module.css';
 import chartStyles from '@/app/(pages)/chart/page.module.css';
 import { analyzeChart } from '@/lib/astrology/analysis';
 import { calculateNatal } from '@/lib/astrology/engine';
@@ -40,6 +46,7 @@ it('keeps two primary readings visible and can generate private synthetic visual
     '@import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500&family=Space+Grotesk:wght@400;500;600&family=Manrope:wght@400;500;600&display=swap"); :root { --font-display: "Space Grotesk"; --font-serif: "Cormorant Garamond"; --font-ui: "Manrope"; }',
     readFileSync('styles/globals.css', 'utf8'),
     css('components/Header/Header.module.css', headerStyles),
+    css('components/ProfileDetails/ProfileDetails.module.css', profileStyles),
     css('app/(pages)/chart/page.module.css', chartStyles),
     css('styles/editorial.module.css', editorialStyles),
     css('components/ChartReveal/ChartReveal.module.css', revealStyles),
@@ -48,6 +55,7 @@ it('keeps two primary readings visible and can generate private synthetic visual
     css('components/TodayView/TodayView.module.css', todayStyles),
   ].join('\n');
   const documents = {
+    profile: <ProfileDetails initial={{ nickname: 'Sky', currentLocation: 'London', pronouns: 'they/them', experience: 'familiar', interests: ['Career'] }} />,
     chart: (
       <article className={chartStyles.chart}>
         <header className={chartStyles.heading}>
@@ -118,31 +126,13 @@ it('keeps two primary readings visible and can generate private synthetic visual
   expect(todayDocument.querySelectorAll(`.${todayStyles.focus}`)).toHaveLength(4);
   if (!output) return;
   mkdirSync(output, { recursive: true });
-  const header = renderToStaticMarkup(
-    <header className={headerStyles.header}>
-      <a className={headerStyles.brand} href="/">
-        Caelum
-      </a>
-      <nav className={headerStyles.primary} aria-label="Your universe">
-        {['Today', 'Chart', 'Explore', 'People', 'Journal'].map((label) => (
-          <a key={label} href={`/${label.toLowerCase()}`}>
-            {label}
-          </a>
-        ))}
-      </nav>
-      <nav aria-label="Account">
-        <button type="button" aria-label="Sign out">
-          &#8594;
-        </button>
-      </nav>
-    </header>
-  );
+  const header = renderToStaticMarkup(<Header signedIn chartReady />);
   for (const [name, content] of Object.entries(documents)) {
     const html = `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Caelum synthetic ${name} review</title><style>${styles}</style></head><body>${header}<main>${renderToStaticMarkup(content)}</main></body></html>`;
     writeFileSync(
       join(output, `${name}.html`),
       html.replace('href="/images/moon.jpg"', 'href="http://localhost:3002/images/moon.jpg"')
     );
-    expect(html).toContain('Your sky');
+    expect(html).toContain('Caelum');
   }
 });

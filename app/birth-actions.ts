@@ -83,5 +83,6 @@ export async function submitDetails(
       error: error instanceof ProfileStorageError ? error.message : 'Could not save your profile.',
     };
   }
+  revalidatePath('/profile');
   redirect('/chart');
 }

@@ -11,6 +11,8 @@
   --wine: #6e3948;
   --error: #ff91a7;
   --radius: 8px;
+  --page-width: 64rem;
+  --page-gutter: 3rem;
   color-scheme: dark;
 }
 
@@ -33,10 +35,10 @@ body {
 }
 
 main {
-  width: min(100%, 80rem);
+  width: min(100%, calc(var(--page-width) + 2 * var(--page-gutter)));
   flex: 1;
   margin: 0 auto;
-  padding: 3rem 3rem 5rem;
+  padding: 3rem var(--page-gutter) 5rem;
 }
 
 main:has([data-today-view]) {
@@ -159,9 +161,12 @@ select {
   background: var(--wine);
   color: var(--text);
 }
-@media (max-width: 600px) {
+@media (max-width: 650px) {
+  :root {
+    --page-gutter: 1.25rem;
+  }
   main {
-    padding: 1.5rem 1.25rem 4rem;
+    padding: 1.5rem var(--page-gutter) 4rem;
   }
 }
 @media (prefers-reduced-motion: no-preference) {

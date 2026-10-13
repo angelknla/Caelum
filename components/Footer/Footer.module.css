@@ -4,7 +4,7 @@
   justify-content: space-between;
   flex-wrap: wrap;
   gap: 1.5rem;
-  padding: 2rem max(3rem, calc((100% - 64rem) / 2));
+  padding: 2rem max(var(--page-gutter), calc((100% - var(--page-width)) / 2));
   border-top: 1px solid var(--border);
   background: var(--ink);
   border-radius: 0;
@@ -54,6 +54,6 @@
 }
 @media (max-width: 650px) {
   .footer {
-    padding: 1.5rem 1.25rem;
+    padding: 1.5rem var(--page-gutter);
   }
 }

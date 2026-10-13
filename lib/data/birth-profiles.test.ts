@@ -74,4 +74,15 @@ describe('custom-session profile ownership', () => {
     mocks.single.mockResolvedValue({ data: null, error: { code: '42P01' } });
     await expect(getBirthProfile()).rejects.toThrow('phase1.sql');
   });
+  it('returns saved details with the owned birth profile', async () => {
+    mocks.account.mockResolvedValue({ memberId: 'account-a' });
+    const details = { nickname: 'Sky', interests: ['Career'], experience: 'familiar' };
+    mocks.single.mockResolvedValue({
+      data: { birth, chart: null, details, updated_at: '2026-10-13' },
+      error: null,
+    });
+    await expect(getBirthProfile()).resolves.toMatchObject({ birth, details });
+    expect(mocks.select).toHaveBeenCalledWith('birth, chart, details, updated_at');
+    expect(mocks.eq).toHaveBeenCalledWith('member_id', 'account-a');
+  });
 });

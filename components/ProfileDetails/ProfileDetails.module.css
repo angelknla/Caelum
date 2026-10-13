@@ -1,17 +1,15 @@
 .profile {
+  width: 100%;
+}
+.profile form {
   width: min(100%, 40rem);
-  margin: 3rem auto 5rem;
+  margin: 2rem auto 0;
 }
-.eyebrow {
-  color: var(--gold);
-  text-transform: uppercase;
-  font-size: 0.7rem;
-}
-.profile h1 {
-  font-size: 3.5rem;
-  line-height: 1.05;
-  padding-bottom: 2rem;
-  border-bottom: 1px solid var(--gold);
+.birthLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-height: 2.75rem;
 }
 .profile fieldset {
   border: 0;

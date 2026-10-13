@@ -1,5 +1,5 @@
 import BrandMark from '@components/BrandMark/BrandMark';
-import { LogOut } from 'lucide-react';
+import { LogOut, UserRound } from 'lucide-react';
 import Link from 'next/link';
 import { lock } from '@/app/auth-actions';
 import styles from './Header.module.css';
@@ -22,11 +22,16 @@ export default function Header({
       {chartReady && <PrimaryNavigation />}
       <nav aria-label="Account" className={styles.account}>
         {signedIn ? (
-          <form action={lock}>
-            <button type="submit" title="Sign out" aria-label="Sign out">
-              <LogOut size={18} />
-            </button>
-          </form>
+          <>
+            <Link className={styles.profileLink} href="/profile" title="Your profile" aria-label="Your profile">
+              <UserRound size={18} />
+            </Link>
+            <form action={lock}>
+              <button type="submit" title="Sign out" aria-label="Sign out">
+                <LogOut size={18} />
+              </button>
+            </form>
+          </>
         ) : (
           <Link href="/login">Sign in</Link>
         )}

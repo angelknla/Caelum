@@ -24,7 +24,7 @@ export async function getBirthProfile(): Promise<SavedBirthProfile | null> {
   const { client, memberId } = await ownedClient();
   const { data, error } = await client
     .from('birth_profiles')
-    .select('birth, chart, updated_at')
+    .select('birth, chart, details, updated_at')
     .eq('member_id', memberId)
     .maybeSingle();
   if (error) throw new ProfileStorageError();
@@ -37,6 +37,7 @@ export async function getBirthProfile(): Promise<SavedBirthProfile | null> {
   return {
     birth: data.birth as BirthInput,
     chart: current ? chart : null,
+    details: data.details ?? undefined,
     updatedAt: data.updated_at,
   };
 }

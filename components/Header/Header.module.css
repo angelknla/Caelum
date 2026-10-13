@@ -8,7 +8,7 @@
   justify-content: space-between;
   gap: 1rem;
   min-height: 5rem;
-  padding: 1rem max(3rem, calc((100% - 64rem) / 2));
+  padding: 1rem max(var(--page-gutter), calc((100% - var(--page-width)) / 2));
   border-bottom: 1px solid var(--border);
   background: var(--surface);
   border-radius: 0;
@@ -42,7 +42,7 @@
 .brand:hover svg {
   transform: rotate(45deg);
 }
-@media (max-width: 650px) {
+@media (max-width: 750px) {
   .header {
     flex-wrap: wrap;
     border-radius: 0;
@@ -73,15 +73,7 @@
   border-bottom: 3px solid var(--text);
   font-weight: 600;
 }
-@media (max-width: 950px) {
-  .header {
-    padding-inline: 3rem;
-  }
-}
-@media (max-width: 650px) {
-  .header {
-    padding-inline: 1.25rem;
-  }
+@media (max-width: 750px) {
   .primary {
     border-top: 1px solid var(--border);
     padding-top: 0.35rem;
@@ -105,7 +97,8 @@
   align-items: center;
   gap: 0.5rem;
 }
-.header nav button {
+.header nav button,
+.profileLink {
   display: grid;
   place-items: center;
   width: 2.75rem;
@@ -114,4 +107,11 @@
   background: transparent;
   color: var(--muted);
   border-color: transparent;
+}
+.profileLink {
+  border-radius: var(--radius);
+}
+.profileLink:hover {
+  background: var(--surface);
+  color: var(--text);
 }

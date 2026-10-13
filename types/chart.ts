@@ -50,8 +50,17 @@ export type NatalChart = {
   };
 };
 
+export type ProfileDetails = {
+  nickname?: string;
+  currentLocation?: string;
+  pronouns?: string;
+  experience?: string;
+  interests?: string[];
+};
+
 export type SavedBirthProfile = {
   birth: BirthInput;
   chart: NatalChart | null;
+  details?: ProfileDetails;
   updatedAt: string;
 };
