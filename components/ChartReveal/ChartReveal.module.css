@@ -1,6 +1,6 @@
 .reveal {
   margin: 3rem auto 5rem;
-  width: min(100%, 46rem);
+  width: 100%;
   border-top: 1px solid var(--border);
   padding-top: 2rem;
 }
