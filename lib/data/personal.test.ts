@@ -1,6 +1,10 @@
 import { beforeEach, expect, it, vi } from 'vitest';
 
 vi.mock('server-only', () => ({}));
+vi.mock('next/cache', () => ({
+  unstable_cache: (load: () => Promise<unknown>) => load,
+  updateTag: vi.fn(),
+}));
 const mocks = vi.hoisted(() => ({
   account: vi.fn(),
   from: vi.fn(),
@@ -18,6 +22,7 @@ const mocks = vi.hoisted(() => ({
 vi.mock('@/lib/session', () => ({ getCurrentAccount: mocks.account }));
 vi.mock('@/lib/supabase/server', () => ({ getSupabase: () => ({ from: mocks.from }) }));
 
+import { DATA_REVISION, ENGINE_VERSION } from '@/lib/astrology/provenance';
 import {
   deleteJournalRecord,
   deletePersonRecord,
@@ -119,4 +124,52 @@ it('rejects absent records, invalid IDs, and unavailable tables', async () => {
   await expect(getJournalEntry('bad-id')).rejects.toThrow('Invalid');
   mocks.limit.mockResolvedValue({ data: null, error: { code: '42P01' } });
   await expect(listPeople()).rejects.toThrow('phase5.sql');
+});
+
+it('loads only people summaries and distinguishes current charts from stale ones', async () => {
+  mocks.account.mockResolvedValue({ memberId: 'owner' });
+  mocks.limit.mockResolvedValue({
+    data: [
+      {
+        id,
+        name: 'Current',
+        relationship: 'Friend',
+        chart_schema: '1',
+        chart_engine: ENGINE_VERSION,
+        chart_revision: DATA_REVISION,
+      },
+      {
+        id: 'other',
+        name: 'Stale',
+        relationship: '',
+        chart_schema: '1',
+        chart_engine: 'old',
+        chart_revision: DATA_REVISION,
+      },
+      {
+        id: 'draft',
+        name: 'Draft',
+        relationship: '',
+        chart_schema: null,
+        chart_engine: null,
+        chart_revision: null,
+      },
+    ],
+    error: null,
+  });
+  await expect(listPeople()).resolves.toEqual([
+    { id, name: 'Current', relationship: 'Friend', hasChart: true },
+    { id: 'other', name: 'Stale', relationship: '', hasChart: false },
+    { id: 'draft', name: 'Draft', relationship: '', hasChart: false },
+  ]);
+  expect(mocks.select).toHaveBeenCalledWith(
+    expect.stringContaining('chart_schema:chart->>schemaVersion')
+  );
+  expect(mocks.select).not.toHaveBeenCalledWith('*');
+});
+
+it('requests journal summaries without unused snapshots', async () => {
+  mocks.account.mockResolvedValue({ memberId: 'owner' });
+  await listJournal();
+  expect(mocks.select).toHaveBeenCalledWith('id, entry_date, title, body, tags');
 });

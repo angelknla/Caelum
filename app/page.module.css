@@ -11,7 +11,7 @@
   overflow: hidden;
   background: #000;
   border-radius: 0;
-  margin: -3rem -3rem 0;
+  margin: -3rem calc(-1 * var(--page-gutter)) 0;
 }
 .moon {
   position: absolute;
@@ -44,36 +44,50 @@
   line-height: 1.2;
   margin: 0 0 2rem;
 }
-.begin {
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+}
+.begin,
+.returning {
   display: inline-flex;
   gap: 1rem;
   align-items: center;
   justify-content: center;
-  min-height: 2.75rem;
-  padding: 0.5rem 1rem;
-  border: 1px solid var(--gold);
+  min-height: 3.25rem;
+  padding: 0.75rem 1.25rem;
+  border: 1px solid var(--text);
   border-radius: var(--radius);
-  background: var(--electric);
-  color: var(--ink);
   text-decoration: none;
   font-size: 1rem;
   font-weight: 600;
 }
-.begin svg {
+.begin {
+  background: var(--text);
+  color: var(--ink);
+}
+.begin svg,
+.returning svg {
   width: 16px;
   height: 16px;
   flex-shrink: 0;
 }
 .begin:hover {
-  background: var(--text);
+  background: var(--link);
+  border-color: var(--link);
   color: var(--ink);
 }
 .returning {
-  display: block;
-  width: fit-content;
-  margin-top: 1.25rem;
-  font-size: 1rem;
-  color: var(--muted);
+  background: #202020;
+  border-color: #79746a;
+  color: var(--text);
+}
+.returning:hover {
+  background: #30302d;
+  border-color: var(--link);
+  color: var(--text);
 }
 .caption {
   position: absolute;
@@ -113,6 +127,14 @@
   max-width: 26rem;
 }
 @media (prefers-reduced-motion: no-preference) {
+  .rotatingMoon {
+    animation: moonRotate 180s linear infinite;
+  }
+  @keyframes moonRotate {
+    to {
+      transform: rotate(360deg);
+    }
+  }
   .title {
     animation: arrive 900ms ease-out both;
   }
@@ -127,13 +149,12 @@
     }
   }
 }
-@media (max-width: 700px) {
+@media (max-width: 950px) {
   .arrival {
     border-radius: 0;
     display: flex;
     flex-direction: column;
     min-height: 0;
-    margin: -3rem -3rem 0;
   }
   .moon {
     position: static;
@@ -169,8 +190,18 @@
     font-size: 2.5rem;
   }
 }
-@media (max-width: 600px) {
+@media (max-width: 650px) {
   .arrival {
-    margin: -1.5rem -1.25rem 0;
+    margin-top: -1.5rem;
+  }
+}
+@media (max-width: 480px) {
+  .actions {
+    display: grid;
+    max-width: 20rem;
+  }
+  .begin,
+  .returning {
+    justify-content: space-between;
   }
 }

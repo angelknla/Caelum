@@ -1,12 +1,20 @@
+import AuthForm from '@components/AuthForm/AuthForm';
+import Modal from '@components/Modal/Modal';
 import { ArrowRight } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
 import { getBirthProfile, ProfileStorageError } from '@/lib/data/birth-profiles';
 import { getCurrentAccount } from '@/lib/session';
+import { isSupabaseConfigured } from '@/lib/supabase/server';
 import styles from './page.module.css';
 
-export default async function HomePage() {
+export default async function HomePage({
+  searchParams,
+}: {
+  searchParams: Promise<{ login?: string }>;
+}) {
+  const showLogin = (await searchParams).login === 'true';
   const account = await getCurrentAccount();
   if (account) {
     try {
@@ -20,12 +28,12 @@ export default async function HomePage() {
     <>
       <section className={styles.arrival}>
         <Image
-          className={styles.moon}
+          className={`${styles.moon}${account ? '' : ` ${styles.rotatingMoon}`}`}
           src="/images/moon.jpg"
           alt="The near side of the full Moon, photographed by Gregory H. Revera"
           width={2580}
           height={2452}
-          sizes="(max-width: 700px) 90vw, 660px"
+          sizes="(max-width: 950px) 280px, 660px"
           priority
         />
         <div className={styles.title}>
@@ -36,14 +44,16 @@ export default async function HomePage() {
             <br />
             Your story.
           </p>
-          <Link className={styles.begin} href={account ? '/begin' : '/register'}>
-            Begin <ArrowRight size={20} />
-          </Link>
-          {!account && (
-            <Link className={styles.returning} href="/login">
-              Return to your sky
+          <div className={styles.actions}>
+            <Link className={styles.begin} href={account ? '/begin' : '/register'}>
+              Begin <ArrowRight size={20} aria-hidden="true" />
             </Link>
-          )}
+            {!account && (
+              <Link className={styles.returning} href="/?login=true" scroll={false}>
+                Return to your sky <ArrowRight size={20} aria-hidden="true" />
+              </Link>
+            )}
+          </div>
         </div>
         <div className={styles.caption}>
           <span>01 / A personal universe</span>
@@ -56,6 +66,15 @@ export default async function HomePage() {
           </a>
         </div>
       </section>
+      {showLogin && !account && (
+        <Modal label="Sign in" closeHref="/" size="auth">
+          <AuthForm
+            mode="login"
+            inModal
+            available={isSupabaseConfigured() && Boolean(process.env.APP_PASSCODE)}
+          />
+        </Modal>
+      )}
       <section className={styles.next}>
         <span className={styles.eyebrow}>A moment in the sky</span>
         <h2>

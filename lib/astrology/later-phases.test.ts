@@ -37,6 +37,9 @@ describe('Explore, calendar, and comparisons', () => {
     ).toBe(true);
     for (const event of calendar.events) {
       expect(event.at >= calendar.start && event.at < calendar.end).toBe(true);
+      expect(event.reading.title).toBeTruthy();
+      expect(event.reading.explanation).toBeTruthy();
+      expect(event.reading.prompt).toBeTruthy();
       if (event.kind === 'Transit') {
         expect(event.title.startsWith('Moon')).toBe(false);
         expect(event.until! > event.at && event.until! <= calendar.end).toBe(true);
@@ -54,6 +57,23 @@ describe('Explore, calendar, and comparisons', () => {
       (body) => body.id === 'Mercury'
     )!;
     expect(Math.abs(mercury.speed)).toBeLessThan(0.00001);
+  });
+  it('covers complete local days across daylight-saving changes', () => {
+    const calendar = calculateCalendar(
+      chart(),
+      new Date('2026-10-20T23:00:00Z'),
+      7,
+      'Europe/London'
+    );
+    expect(calendar.end).toBe('2026-10-28T00:00:00.000Z');
+    expect(
+      calendar.events.every((event) => event.at >= calendar.start && event.at < calendar.end)
+    ).toBe(true);
+    expect(
+      calendar.events
+        .filter((event) => event.kind === 'Transit')
+        .every((event) => event.until! <= calendar.end)
+    ).toBe(true);
   });
   it('compares chart geometry without compatibility scores or transit motion', () => {
     const natal = chart();

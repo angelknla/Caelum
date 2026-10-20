@@ -1,6 +1,7 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { aspectReading, HOUSE_READINGS, placementReading } from '@/lib/astrology/natal-reading';
 import type { NatalChart } from '@/types/chart';
 import styles from './ChartWheel.module.css';
 import { layoutBodies } from './layout';
@@ -37,12 +38,44 @@ const bodyGlyphs: Record<string, string> = {
   Lilith: '⚸',
 };
 
-export default function ChartWheel({ chart }: { chart: NatalChart }) {
+export default function ChartWheel({
+  chart,
+  compact = false,
+  subject,
+}: {
+  chart: NatalChart;
+  compact?: boolean;
+  subject?: string;
+}) {
+  const artwork = useRef<HTMLDivElement>(null);
+  const inspector = useRef<HTMLDivElement>(null);
   const [selected, setSelected] = useState('Sun');
   const [showAspects, setShowAspects] = useState(true);
   const [house, setHouse] = useState<number | null>(null);
+  useEffect(() => {
+    const panel = inspector.current;
+    if (!panel) return;
+    const resize = () => {
+      artwork.current?.style.setProperty(
+        '--controls-height',
+        `${panel.getBoundingClientRect().height}px`
+      );
+      if (compact && artwork.current) {
+        panel.style.setProperty(
+          '--wheel-height',
+          `${artwork.current.getBoundingClientRect().width}px`
+        );
+      }
+    };
+    const observer = new ResizeObserver(resize);
+    observer.observe(panel);
+    if (compact && artwork.current) observer.observe(artwork.current);
+    resize();
+    return () => observer.disconnect();
+  }, [compact]);
   const positions = [...chart.placements, chart.angles.ascendant, chart.angles.midheaven];
   const active = positions.find((body) => body.id === selected)!;
+  const activeReading = placementReading(active, subject);
   const connections = chart.aspects.filter(
     (aspect) => aspect.from === selected || aspect.to === selected
   );
@@ -52,16 +85,55 @@ export default function ChartWheel({ chart }: { chart: NatalChart }) {
     return { x: 300 + radius * Math.cos(radians), y: 300 - radius * Math.sin(radians) };
   };
   const marks = layoutBodies(chart.placements, rotation);
+  const positionDetails = (
+    <dl>
+      <dt>House</dt>
+      <dd>{active.house ?? 'Angle'}</dd>
+      <dt>Longitude</dt>
+      <dd>{active.longitude.toFixed(4)}°</dd>
+      {active.house !== null && (
+        <>
+          <dt>Daily motion</dt>
+          <dd>{active.speed.toFixed(4)}° / day</dd>
+          <dt>Direction</dt>
+          <dd>{active.retrograde ? 'Retrograde' : 'Direct'}</dd>
+        </>
+      )}
+    </dl>
+  );
+  const connectionList = connections.length ? (
+    <ul>
+      {connections.map((aspect) => (
+        <li key={`${aspect.from}-${aspect.to}-${aspect.name}`}>
+          <button
+            type="button"
+            onClick={() => setSelected(aspect.from === selected ? aspect.to : aspect.from)}
+          >
+            {aspect.name} {aspect.from === selected ? aspect.to : aspect.from}
+            <small>
+              {aspect.orb.toFixed(2)}° orb · {aspect.motion}
+            </small>
+          </button>
+        </li>
+      ))}
+    </ul>
+  ) : (
+    <p className={styles.note}>No major aspects within the selected natal orbs.</p>
+  );
   return (
-    <section className={styles.explorer} aria-label="Natal chart explorer">
-      <div className={styles.artwork}>
+    <section
+      className={styles.explorer}
+      data-compact={compact || undefined}
+      aria-label="Natal chart explorer"
+    >
+      <div ref={artwork} className={styles.artwork}>
         <svg
           className={styles.wheel}
           viewBox="0 0 600 600"
           role="img"
           aria-labelledby="wheel-title wheel-description"
         >
-          <title id="wheel-title">Your natal sky</title>
+          <title id="wheel-title">{subject ? `${subject}’s natal sky` : 'Your natal sky'}</title>
           <desc id="wheel-description">
             Tropical natal chart with Placidus houses. Exact placements and aspects are listed
             below.
@@ -174,7 +246,7 @@ export default function ChartWheel({ chart }: { chart: NatalChart }) {
           </button>
         ))}
       </div>
-      <div className={styles.inspector}>
+      <div ref={inspector} className={styles.inspector}>
         <p className={styles.eyebrow}>A closer look</p>
         <label htmlFor="chart-body" className={styles.label}>
           Body or angle
@@ -208,49 +280,39 @@ export default function ChartWheel({ chart }: { chart: NatalChart }) {
               <p className={styles.position}>
                 {active.degree.toFixed(2)}° {active.sign}
               </p>
-              <dl>
-                <dt>House</dt>
-                <dd>{active.house ?? 'Angle'}</dd>
-                <dt>Longitude</dt>
-                <dd>{active.longitude.toFixed(4)}°</dd>
-                {active.house !== null && (
-                  <>
-                    <dt>Daily motion</dt>
-                    <dd>{active.speed.toFixed(4)}° / day</dd>
-                    <dt>Direction</dt>
-                    <dd>{active.retrograde ? 'Retrograde' : 'Direct'}</dd>
-                  </>
-                )}
-              </dl>
-              <h3>Connections</h3>
-              {connections.length ? (
-                <ul>
-                  {connections.map((aspect) => (
-                    <li key={`${aspect.from}-${aspect.to}-${aspect.name}`}>
-                      <button
-                        type="button"
-                        onClick={() =>
-                          setSelected(aspect.from === selected ? aspect.to : aspect.from)
-                        }
-                      >
-                        {aspect.name} {aspect.from === selected ? aspect.to : aspect.from}
-                        <small>
-                          {aspect.orb.toFixed(2)}° orb · {aspect.motion}
-                        </small>
-                      </button>
-                    </li>
-                  ))}
-                </ul>
+              <details className={styles.meaning}>
+                <summary>What this placement means</summary>
+                <p>{activeReading.description}</p>
+                <p>{activeReading.expression}</p>
+                <p>{activeReading.area}</p>
+              </details>
+              {compact ? (
+                <>
+                  <details className={styles.meaning}>
+                    <summary>Position details</summary>
+                    {positionDetails}
+                  </details>
+                  <details className={styles.meaning} key={`connections-${selected}`}>
+                    <summary>Connections ({connections.length})</summary>
+                    {connectionList}
+                  </details>
+                </>
               ) : (
-                <p className={styles.note}>No major aspects within the selected natal orbs.</p>
+                <>
+                  {positionDetails}
+                  <h3>Connections</h3>
+                  {connectionList}
+                </>
               )}
             </>
           ) : (
             <>
               <h2>House {house}</h2>
+              <p className={styles.houseName}>{HOUSE_READINGS[house].name}</p>
               <p className={styles.position}>
                 Cusp at {chart.houses[house - 1].toFixed(2)}° longitude
               </p>
+              <p className={styles.note}>This house explores {HOUSE_READINGS[house].theme}.</p>
               <ul>
                 {chart.placements
                   .filter((body) => body.house === house)
@@ -272,11 +334,30 @@ export default function ChartWheel({ chart }: { chart: NatalChart }) {
                   ))}
               </ul>
               {!chart.placements.some((body) => body.house === house) && (
-                <p className={styles.note}>None of the calculated bodies occupies this house.</p>
+                <p className={styles.note}>
+                  No calculated bodies occupy this house. Its themes can still be part of your life;
+                  an empty house does not mean an absent experience.
+                </p>
               )}
             </>
           )}
         </div>
+        {house === null && connections.length > 0 && (
+          <details className={styles.meaning}>
+            <summary>Understanding these connections</summary>
+            {[...connections]
+              .sort((first, second) => first.orb - second.orb)
+              .slice(0, 3)
+              .map((aspect) => (
+                <section key={`${aspect.from}-${aspect.to}-${aspect.name}`}>
+                  <h3>
+                    {aspect.from} {aspect.name.toLowerCase()} {aspect.to}
+                  </h3>
+                  <p>{aspectReading(aspect)}</p>
+                </section>
+              ))}
+          </details>
+        )}
         <fieldset className={styles.houseControls}>
           <legend>Houses</legend>
           {chart.houses.map((_, index) => (

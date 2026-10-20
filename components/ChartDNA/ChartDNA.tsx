@@ -1,11 +1,28 @@
 import Link from 'next/link';
+import {
+  distributionSummary,
+  ELEMENT_READINGS,
+  HOUSE_READINGS,
+  MODE_READINGS,
+  PATTERN_READINGS,
+} from '@/lib/astrology/natal-reading';
+import { SIGN_THEMES } from '@/lib/astrology/symbolism';
 import type { ChartDNA as ChartDNAType, Distribution } from '@/types/analysis';
 import styles from './ChartDNA.module.css';
 
-function DistributionRows({ title, items }: { title: string; items: Distribution[] }) {
+function DistributionRows({
+  title,
+  items,
+  meanings,
+}: {
+  title: string;
+  items: Distribution[];
+  meanings: Record<string, string>;
+}) {
   return (
     <section className={styles.distribution} aria-label={title}>
       <h3>{title}</h3>
+      <p className={styles.explanation}>{distributionSummary(items)}</p>
       {items.map((item) => (
         <div key={item.label} className={styles.row}>
           <div className={styles.rowHeading}>
@@ -19,6 +36,7 @@ function DistributionRows({ title, items }: { title: string; items: Distribution
             aria-label={`${item.label} weighted emphasis`}
           />
           <p>{item.bodies.join(', ') || 'No weighted placements'}</p>
+          <p className={styles.explanation}>{meanings[item.label]}</p>
         </div>
       ))}
     </section>
@@ -31,9 +49,14 @@ export default function ChartDNA({ dna }: { dna: ChartDNAType }) {
       <section id="dna" className={styles.dna} aria-labelledby="dna-title">
         <p className={styles.eyebrow}>Your chart / Its underlying rhythm</p>
         <h2 id="dna-title">Your cosmic DNA.</h2>
+        <p className={styles.intro}>
+          These patterns show which styles and areas repeat across your placements. Read the
+          percentages alongside the planets behind them: a lower score does not mean a quality is
+          missing from your life.
+        </p>
         <div className={styles.distributions}>
-          <DistributionRows title="Elements" items={dna.elements} />
-          <DistributionRows title="Modes" items={dna.modalities} />
+          <DistributionRows title="Elements" items={dna.elements} meanings={ELEMENT_READINGS} />
+          <DistributionRows title="Modes" items={dna.modalities} meanings={MODE_READINGS} />
         </div>
         <div className={styles.emphasis}>
           <section>
@@ -44,6 +67,9 @@ export default function ChartDNA({ dna }: { dna: ChartDNAType }) {
                   <strong>{item.label}</strong>
                   <span>{item.score} weighted points</span>
                   <small>{item.bodies.join(', ')}</small>
+                  <p className={styles.houseTheme}>
+                    A recurring style around {SIGN_THEMES[item.label]}.
+                  </p>
                 </li>
               ))}
             </ol>
@@ -56,11 +82,18 @@ export default function ChartDNA({ dna }: { dna: ChartDNAType }) {
                   <strong>House {item.house}</strong>
                   <span>{item.bodies.length} planets</span>
                   <small>{item.bodies.join(', ')}</small>
+                  <p className={styles.houseTheme}>
+                    {HOUSE_READINGS[item.house].name} · {HOUSE_READINGS[item.house].theme}
+                  </p>
                 </li>
               ))}
             </ol>
           </section>
         </div>
+        <p className={styles.intro}>
+          House emphasis counts the ten planets. Houses with no planets still describe areas of
+          life; an empty house does not make its theme absent.
+        </p>
         <section className={styles.patterns}>
           <h3>Patterns in the geometry</h3>
           {dna.configurations.length ? (
@@ -70,6 +103,7 @@ export default function ChartDNA({ dna }: { dna: ChartDNAType }) {
                   {pattern.name}
                   <span>{pattern.bodies.join(' · ')}</span>
                 </summary>
+                <p>{PATTERN_READINGS[pattern.name]}</p>
                 <ul>
                   {pattern.evidence.map((evidence) => (
                     <li key={evidence}>{evidence}</li>

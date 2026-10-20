@@ -1,0 +1,41 @@
+.dialog {
+  width: min(52rem, calc(100% - 2 * var(--page-gutter)));
+  max-height: calc(100svh - 2 * var(--page-gutter));
+  padding: 3.5rem 2.5rem 2.5rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--background);
+  color: var(--text);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  box-shadow: 0 1.5rem 5rem #0008;
+}
+
+.dialog[data-size="auth"] {
+  width: min(40rem, calc(100% - 2 * var(--page-gutter)));
+}
+
+.dialog::backdrop {
+  background: #000b;
+  backdrop-filter: blur(5px);
+}
+
+.close {
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
+  display: grid;
+  place-items: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  padding: 0;
+  border-color: transparent;
+  background: transparent;
+  color: var(--muted);
+}
+
+@media (max-width: 650px) {
+  .dialog {
+    padding: 3.5rem 1.25rem 1.5rem;
+  }
+}

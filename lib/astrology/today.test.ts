@@ -2,6 +2,7 @@ import { describe, expect, it, vi } from 'vitest';
 
 vi.mock('server-only', () => ({}));
 
+import { selectDailyContact } from './daily-reading';
 import { calculateNatal, calculateSky, placement } from './engine';
 import { buildToday, calculateLunarEvents, lunarPhase, transitContacts } from './today';
 
@@ -67,6 +68,12 @@ describe('calculated Today sky', () => {
     expect(new Set(today.focus.map((item) => item.id)).size).toBe(4);
     expect(today.focus.every((item) => item.evidence.length > 0)).toBe(true);
     expect(today.contacts.every((contact) => contact.orb <= 2)).toBe(true);
+    expect(today.summary.text).toContain(`With the Moon in ${today.moon.sign}`);
+    expect(today.summary.text.split(/\s+/).length).toBeLessThan(100);
+    const selected = selectDailyContact(today.contacts)!;
+    expect(today.summary.evidence.join(' ')).toContain(
+      `Transiting ${selected.transiting} ${selected.name.toLowerCase()} natal ${selected.natal}`
+    );
     expect(JSON.stringify(chart)).toBe(before);
   });
 });

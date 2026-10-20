@@ -32,6 +32,10 @@ export default function ReferenceLibrary() {
           </select>
         </label>
       </div>
+      <p className={styles.libraryDescription}>
+        Learn what planets, signs, houses, and aspects mean. Open an entry to see how it connects to
+        your birth chart.
+      </p>
       <p className={styles.muted} aria-live="polite">
         {entries.length} entries
       </p>
@@ -44,7 +48,9 @@ export default function ReferenceLibrary() {
               <div className={styles.libraryItemHeading}>
                 <CollectionIcon strokeWidth={1.2} aria-hidden="true" />
                 <h2>
-                  <Link href={`/explore/${entry.id}`}>{entry.name}</Link>
+                  <Link prefetch={false} href={`/explore?entry=${entry.id}`} scroll={false}>
+                    {entry.name}
+                  </Link>
                 </h2>
               </div>
               <p>{entry.summary}</p>

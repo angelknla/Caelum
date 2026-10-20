@@ -1,0 +1,145 @@
+.range {
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+.intro {
+  max-width: 58rem;
+  color: var(--muted);
+  line-height: 1.8;
+}
+.filters {
+  margin-top: 1.5rem;
+  border-top: 1px solid var(--border);
+}
+.rangeNavigation {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 2rem;
+}
+.rangeNavigation a,
+.card a,
+.event a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-height: 2.75rem;
+  font-size: 0.9rem;
+}
+.section {
+  padding: 2.5rem 0;
+  border-bottom: 1px solid var(--border);
+  scroll-margin-top: 7rem;
+}
+.section > h2 {
+  margin: 0.75rem 0 1rem;
+  font-size: clamp(2rem, 3vw, 3rem);
+}
+.eyebrow {
+  color: var(--gold);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+}
+.highlights {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 2rem;
+  margin-top: 2rem;
+}
+.card {
+  min-width: 0;
+  padding-top: 1rem;
+  border-top: 1px solid var(--gold);
+}
+.card h3,
+.event h3 {
+  margin: 0.75rem 0;
+  font-size: 1.65rem;
+}
+.card p,
+.event p,
+.retrogrades p,
+.record p {
+  color: var(--muted);
+  font-size: 0.9rem;
+  line-height: 1.8;
+}
+.card .position,
+.event .position {
+  color: var(--gold);
+  font-size: 0.85rem;
+}
+.card .eventLabel,
+.event .eventLabel {
+  font-size: 0.75rem;
+}
+.section summary,
+.record summary {
+  color: var(--link);
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+.section blockquote {
+  margin: 1rem 0;
+  padding-left: 1rem;
+  border-left: 1px solid var(--gold);
+  font-family: var(--font-serif), Georgia, serif;
+  font-size: 1.4rem;
+}
+.retrogrades {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.5rem 2rem;
+}
+.retrogrades details {
+  border-top: 1px solid var(--border);
+}
+.day {
+  display: grid;
+  grid-template-columns: minmax(0, 13rem) minmax(0, 1fr);
+  gap: 2rem;
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border);
+  scroll-margin-top: 7rem;
+}
+.dayTitle {
+  margin: 0.5rem 0;
+  font-size: 1.4rem;
+  line-height: 1.3;
+}
+.events {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.event {
+  max-width: 60rem;
+  padding: 0.5rem 0 1.5rem;
+}
+.event + .event {
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border);
+}
+.empty,
+.record {
+  color: var(--muted);
+  padding: 1.5rem 0;
+}
+@media (max-width: 950px) {
+  .highlights {
+    grid-template-columns: 1fr;
+  }
+}
+@media (max-width: 650px) {
+  .section {
+    padding: 2rem 0;
+  }
+  .day,
+  .retrogrades {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+  }
+  .filters > label:first-child {
+    flex-basis: 100%;
+  }
+}

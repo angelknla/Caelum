@@ -1,9 +1,11 @@
 import 'server-only';
+import { createHash } from 'node:crypto';
 import { PLANETS } from '@/lib/astrology/analysis';
 import { calculateSky, normalize, SIGNS } from '@/lib/astrology/engine';
+import { BoundedCache } from '@/lib/cache';
 import type { TodayFocus, TransitContact } from '@/types/analysis';
 import type { NatalChart, Placement } from '@/types/chart';
-import { SIGN_THEMES, symbolicConnection } from './symbolism';
+import { dailyContactReading, lunarReadings, selectDailyContact } from './daily-reading';
 
 const hour = 3600000;
 const aspects = [
@@ -91,7 +93,20 @@ function nextCrossing(
   throw new Error('Could not resolve the next lunar event within the search interval.');
 }
 
-export function calculateLunarEvents(at: Date, sky = calculateSky(at)) {
+const lunarCache = new BoundedCache<ReturnType<typeof computeLunarEvents>>(256, 60 * 60 * 1000);
+export function calculateLunarEvents(
+  at: Date,
+  sky = calculateSky(at)
+): ReturnType<typeof computeLunarEvents> {
+  const key = JSON.stringify([
+    at.getTime(),
+    sky.elongation,
+    sky.positions.find((body) => body.id === 'Moon')?.longitude,
+  ]);
+  return structuredClone(lunarCache.getOrCreate(key, () => computeLunarEvents(at, sky)));
+}
+
+function computeLunarEvents(at: Date, sky: ReturnType<typeof calculateSky>) {
   const quarter = (Math.floor(sky.elongation / 90) + 1) % 4;
   const nextPhase = {
     name: exactPhaseNames[quarter],
@@ -121,11 +136,23 @@ export function calculateLunarEvents(at: Date, sky = calculateSky(at)) {
 const contactEvidence = (contact: TransitContact) =>
   `Transiting ${contact.transiting} ${contact.name.toLowerCase()} natal ${contact.natal}: ${contact.orb.toFixed(2)}° orb, ${contact.motion}.`;
 
-export function buildToday(natal: NatalChart, at = new Date()) {
+const todayCache = new BoundedCache<ReturnType<typeof computeToday>>(128, 60 * 1000);
+export function buildToday(natal: NatalChart, at?: Date): ReturnType<typeof computeToday> {
+  // Live readings share a minute snapshot; explicit dates are never rounded.
+  const snapshot = at ?? new Date(Math.floor(Date.now() / 60000) * 60000);
+  const key = createHash('sha256')
+    .update(JSON.stringify([natal, snapshot.getTime()]))
+    .digest('hex');
+  return structuredClone(todayCache.getOrCreate(key, () => computeToday(natal, snapshot)));
+}
+
+function computeToday(natal: NatalChart, at: Date) {
   const sky = calculateSky(at);
   const moon = sky.positions.find((body) => body.id === 'Moon')!;
   const contacts = transitContacts(sky.positions, natal);
-  const main = contacts.find((contact) => contact.transiting !== 'Moon') ?? contacts[0];
+  const main = selectDailyContact(contacts);
+  const mainReading = main ? dailyContactReading(main) : null;
+  const emotionalReading = lunarReadings[moon.sign];
   const moonContact = contacts.find((contact) => contact.transiting === 'Moon');
   const opportunity = contacts.find(
     (contact) => contact !== main && (contact.angle === 60 || contact.angle === 120)
@@ -134,21 +161,32 @@ export function buildToday(natal: NatalChart, at = new Date()) {
     (contact) => contact !== main && (contact.angle === 90 || contact.angle === 180)
   );
   const phase = lunarPhase(sky.elongation);
+  const lunarSummary = `With the Moon in ${moon.sign}, ${emotionalReading.summary}`;
+  const summary = {
+    text: `${lunarSummary} ${mainReading?.reflection ?? 'Keep your plans flexible and let your actual priorities set the pace.'}`,
+    evidence: [
+      `Moon: ${moon.degree.toFixed(2)}° ${moon.sign}. The Moon-sign theme is shared; the transit reading uses your birth chart.`,
+      ...(main
+        ? [contactEvidence(main)]
+        : ['No major transit to your natal planets or angles is within 2° at this moment.']),
+    ],
+  };
   const focus: TodayFocus[] = [
     {
       id: 'focus',
       label: 'Main focus',
-      title: main
-        ? `${main.transiting} ${main.name.toLowerCase()} natal ${main.natal}`
-        : 'Room for your own rhythm',
-      reflection: main
-        ? symbolicConnection(main.transiting, main.natal, main.angle)
-        : 'No calculated major transit contact meets the 2° threshold at this moment. Let your own priorities, rather than an invented cosmic instruction, set the rhythm.',
-      prompt: 'What deserves your deliberate attention today?',
+      title: mainReading?.title ?? 'Room for your own rhythm',
+      reflection:
+        mainReading?.reflection ??
+        'Keep your plans flexible and choose a priority that matters to you. A little space between commitments can help you notice what you need.',
+      explanation:
+        mainReading?.explanation ??
+        'Start with what is already in front of you: your energy, your commitments, and the time you have. Choose one thing to give proper attention, then leave enough room to adjust if the day asks for something different.',
+      prompt: mainReading?.prompt ?? 'What deserves your deliberate attention today?',
       evidence: main
         ? [
             contactEvidence(main),
-            'Closest non-lunar contact; closest lunar contact only if no non-lunar contact qualifies.',
+            'Closest Sun–Mars contact to a natal personal planet or angle, then other Sun–Mars contacts, then the closest longer-running contact. Each group is ranked by orb.',
           ]
         : [
             'Sun through Pluto to natal planets, ascendant, and midheaven; five major aspects; 2° maximum orb.',
@@ -157,9 +195,10 @@ export function buildToday(natal: NatalChart, at = new Date()) {
     {
       id: 'emotions',
       label: 'Emotional weather',
-      title: `Moon in ${moon.sign}`,
-      reflection: `The Moon in ${moon.sign} offers a reflection on ${SIGN_THEMES[moon.sign]}. Let this be a question to sit with, not a feeling you are required to have.`,
-      prompt: 'What feeling needs acknowledgement without becoming a verdict?',
+      title: emotionalReading.title,
+      reflection: lunarSummary,
+      explanation: emotionalReading.explanation,
+      prompt: emotionalReading.prompt,
       evidence: [
         `Moon: ${moon.degree.toFixed(2)}° ${moon.sign}; ${(sky.illumination * 100).toFixed(1)}% illuminated; ${sky.elongation.toFixed(2)}° Moon–Sun elongation.`,
         ...(moonContact
@@ -170,12 +209,13 @@ export function buildToday(natal: NatalChart, at = new Date()) {
     {
       id: 'opportunity',
       label: 'Opportunity',
-      title: opportunity
-        ? `${opportunity.transiting} ${opportunity.name.toLowerCase()} natal ${opportunity.natal}`
-        : 'Make space for possibility',
+      title: opportunity ? dailyContactReading(opportunity).title : 'Make space for possibility',
       reflection: opportunity
-        ? symbolicConnection(opportunity.transiting, opportunity.natal, opportunity.angle)
-        : 'No additional sextile or trine qualifies at this moment. Possibility does not depend on a transit being present.',
+        ? dailyContactReading(opportunity).reflection
+        : 'Give a small idea a little room: ask a question, try a different approach, or make time for something you enjoy.',
+      explanation: opportunity
+        ? dailyContactReading(opportunity).explanation
+        : 'Look for something you can explore without needing a particular result: a conversation, a first attempt, or a change to your routine. Notice what gives you energy, and let that help you decide whether to take another step.',
       prompt: 'What small experiment could be worthwhile on its own terms?',
       evidence: opportunity
         ? [contactEvidence(opportunity)]
@@ -186,12 +226,13 @@ export function buildToday(natal: NatalChart, at = new Date()) {
     {
       id: 'care',
       label: 'A little care',
-      title: caution
-        ? `${caution.transiting} ${caution.name.toLowerCase()} natal ${caution.natal}`
-        : 'Leave a little breathing room',
+      title: caution ? dailyContactReading(caution).title : 'Leave a little breathing room',
       reflection: caution
-        ? symbolicConnection(caution.transiting, caution.natal, caution.angle)
-        : 'No additional square or opposition qualifies at this moment. This is not a guarantee of an easy day or a reason to overlook real concerns.',
+        ? dailyContactReading(caution).reflection
+        : 'Leave a little space between commitments. A pause can help you respond with more care when something needs your attention.',
+      explanation: caution
+        ? dailyContactReading(caution).explanation
+        : 'Check where a small adjustment could make the day more manageable: allow extra time, say what you need, or take a break before responding. You can revise a plan without treating the change as a failure.',
       prompt: 'Where would a pause or a clearer boundary be helpful?',
       evidence: caution
         ? [contactEvidence(caution)]
@@ -200,5 +241,5 @@ export function buildToday(natal: NatalChart, at = new Date()) {
           ],
     },
   ];
-  return { sky, moon, phase, contacts, focus, events: calculateLunarEvents(at, sky) };
+  return { sky, moon, phase, contacts, summary, focus, events: calculateLunarEvents(at, sky) };
 }

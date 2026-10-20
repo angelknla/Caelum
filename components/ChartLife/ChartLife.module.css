@@ -1,0 +1,67 @@
+.section {
+  padding: 2.5rem 0 3rem;
+  border-top: 1px solid var(--border);
+  scroll-margin-top: 7rem;
+}
+.eyebrow,
+.placement {
+  color: var(--gold);
+  font-size: 0.8rem;
+}
+.eyebrow {
+  text-transform: uppercase;
+}
+.section h2 {
+  margin: 1rem 0;
+  font-size: clamp(2rem, 3vw, 3rem);
+}
+.intro {
+  max-width: 54rem;
+  color: var(--muted);
+  line-height: 1.8;
+}
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 2.5rem;
+  margin-top: 2rem;
+}
+.card {
+  min-width: 0;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--gold);
+}
+.card h3 {
+  font-size: 1.8rem;
+  margin: 1rem 0;
+}
+.card p:not(.placement) {
+  color: var(--muted);
+  font-size: 0.95rem;
+  line-height: 1.8;
+}
+.card details {
+  padding: 0.5rem 0;
+}
+.card summary {
+  color: var(--gold);
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+.card h4 {
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+}
+.card > a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.75rem;
+  margin-top: 1rem;
+  font-size: 0.9rem;
+}
+@media (max-width: 950px) {
+  .grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+}

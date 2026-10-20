@@ -1,6 +1,7 @@
 import ChartDNA from '@components/ChartDNA/ChartDNA';
+import ChartLife from '@components/ChartLife/ChartLife';
+import ChartOverview from '@components/ChartOverview/ChartOverview';
 import ChartReveal from '@components/ChartReveal/ChartReveal';
-import ChartWheel from '@components/ChartWheel/ChartWheel';
 import { ArrowRight, Pencil } from 'lucide-react';
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
@@ -54,26 +55,18 @@ export default async function ChartPage() {
   const dna = analyzeChart(chart);
   return (
     <article className={styles.chart}>
-      <header className={styles.heading}>
-        <div>
-          <p className={styles.eyebrow}>The sky / Your chart</p>
-          <h1>Your sky, at the beginning.</h1>
-          <p>
-            {birth.date} · {birth.time} · {birth.place}
-          </p>
-        </div>
-        <Link href="/begin" title="Edit birth details" aria-label="Edit birth details">
-          <Pencil size={18} />
-        </Link>
-      </header>
-      <div className={styles.banner}>
-        <ChartWheel chart={chart} />
-      </div>
+      <ChartOverview chart={chart} birth={birth} />
       <ChartReveal chart={chart} />
+      <ChartLife chart={chart} />
       <ChartDNA dna={dna} />
-      <section className={styles.evidence} aria-labelledby="positions-title">
+      <section id="positions" className={styles.evidence} aria-labelledby="positions-title">
         <p className={styles.eyebrow}>The calculated sky</p>
         <h2 id="positions-title">Positions &amp; connections</h2>
+        <p className={styles.guide}>
+          The planet describes a theme, the sign its style, and the house an area of life. An aspect
+          connects two themes; its orb measures how far the angle is from exact. Retrograde
+          describes apparent motion at birth, rather than a flaw or a prediction.
+        </p>
         <div className={styles.tableWrap}>
           <table>
             <caption>Planetary placements · tropical / Placidus</caption>

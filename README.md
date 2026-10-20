@@ -21,7 +21,7 @@ In the existing Caelum project, open SQL Editor > New query. Name it `caelum_pha
 
 Birth records and charts are stored together in an atomic upsert. Ownership is derived exclusively from the verified server session. RLS is enabled and public/anon/authenticated access is revoked. Custom login is **not** Supabase Auth: service-role requests bypass RLS, so per-user isolation is enforced by the server ownership boundary, not by `auth.uid()` policies. Do not expose the service-role key or publish this prototype without reviewing authentication and authorization.
 
-The app runs locally, but the existing Supabase project stores records in the cloud. Birth records are not written to the repository, application logs, or browser localStorage. User routes are dynamically rendered; there is no shared chart cache.
+The app runs locally, but the existing Supabase project stores records in the cloud. Birth records are not written to the repository, application logs, or browser localStorage. User routes are dynamically rendered. Private database reads use owner-scoped server caches; authentication is checked before accessing a cached record.
 
 ## Phase 1
 
@@ -44,7 +44,7 @@ Supported birth dates: 1900 through today, up to 2099. Tropical/geocentric/Placi
 - Today: four evidence-backed focal sections, real current-sky positions and lunar illumination, and numerically solved next exact lunar phase and sign ingress. Sampled transits use a maximum 2-degree orb and fixed natal targets; quiet states do not invent contacts.
 - Today and Chart navigation appears only for complete charts. Returning users open Today; drafts return to Chart. Birth edits invalidate the current route data. No additional SQL migration is required.
 
-Today is a snapshot calculated at page request, not an automatically updating all-day forecast. Dates are displayed in the saved birth timezone, not a detected current location. Moon artwork is a schematic illumination mask over the credited photograph, not an observer-oriented sky image. Interpretations use transparent deterministic rules. No daily logs or extra personal records are stored automatically.
+Today is a snapshot refreshed each minute, not an automatically updating all-day forecast. Dates are displayed in the saved birth timezone, not a detected current location. Moon artwork is a schematic illumination mask over the credited photograph, not an observer-oriented sky image. Interpretations use transparent deterministic rules. No daily logs or extra personal records are stored automatically.
 
 ## Phase 3: Explore
 
@@ -52,7 +52,7 @@ Searchable authored reference entries for signs, planets/points, houses, and maj
 
 ## Phase 4: Calendar & Outlook
 
-`/calendar` provides 7/30-day date ranges, previous/next navigation, event filters, exact lunar phases and ingresses, solved apparent-motion stations, initial retrograde state, and closest-contact reflections. Non-lunar personal transit windows use six-hour samples and a two-degree threshold. Their edges and closest sampled times are explicitly approximate, not exact transit peaks. Windows are clipped to the selected range. No deterministic event predictions, invented dates, or shared personal forecast cache.
+`/calendar` provides 7/30-day date ranges, previous/next navigation, event filters, exact lunar phases and ingresses, solved apparent-motion stations, initial retrograde state, and closest-contact reflections. Non-lunar personal transit windows use six-hour samples and a two-degree threshold. Their edges and closest sampled times are explicitly approximate, not exact transit peaks. Windows are clipped to the selected range. No deterministic event predictions or invented dates. Repeated calendar calculations reuse bounded server memory entries keyed by the complete chart, date range, and timezone.
 
 ## Phase 5: People & Journal
 
@@ -107,3 +107,8 @@ Moon photograph: Gregory H. Revera, [FullMoon2010](https://commons.wikimedia.org
 Place data: [GeoNames](https://www.geonames.org/), [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/). Attribution appears beside birthplace search.
 
 Fonts: Cormorant Garamond and Manrope via `next/font/google`, under the SIL Open Font License. Netlify runtime verification must be performed after redeployment.
+## Data caching
+
+Account/session checks are memoized within each server render, keeping authentication fresh between requests. Birth profiles, people, and journal reads use Next's Data Cache for fifteen minutes, with verified owner IDs and all record/filter arguments in the keys. Saves and deletes immediately expire the owner's affected cache tags and refresh dependent routes. Expired reads may serve the previous result while Next refreshes it; external database edits therefore appear after revalidation. Failed loads are retried. Raw Supabase requests use `no-store`, and passwords/session cookies are never stored in the shared Data Cache.
+
+Astrology calculations use bounded LRU caches in server memory: exact sky samples and lunar events for one hour; natal charts and complete calendars for 24 hours; live personal readings for one minute. Explicit timestamps, including numerical event solutions and journal snapshots, retain millisecond precision. Changed birth/chart inputs create new entries. These caches reset on process restart and are independent between server instances. Birthplace results are cached for 24 hours on the server and five minutes within the birth form; repeated searches coalesce. Header, calendar range, and record-list links avoid speculative prefetches, and save/delete navigation avoids a duplicate refresh.

@@ -43,7 +43,7 @@ export async function submitPerson(
       birth,
       chart,
     });
-    revalidatePath('/people');
+    revalidatePath('/people', 'layout');
     return { id: savedId };
   } catch (error) {
     return { error: error instanceof Error ? error.message : 'Could not save person.' };
@@ -106,13 +106,13 @@ export async function submitJournal(
   } catch (error) {
     return { error: error instanceof Error ? error.message : 'Could not save entry.' };
   }
-  revalidatePath('/journal');
+  revalidatePath('/journal', 'layout');
   redirect(`/journal/${savedId}`);
 }
 export async function removePerson(id: string): Promise<PersonalResult> {
   try {
     await deletePersonRecord(id);
-    revalidatePath('/people');
+    revalidatePath('/people', 'layout');
     return {};
   } catch (error) {
     return { error: error instanceof Error ? error.message : 'Could not delete person.' };
@@ -121,7 +121,7 @@ export async function removePerson(id: string): Promise<PersonalResult> {
 export async function removeJournal(id: string): Promise<PersonalResult> {
   try {
     await deleteJournalRecord(id);
-    revalidatePath('/journal');
+    revalidatePath('/journal', 'layout');
     return {};
   } catch (error) {
     return { error: error instanceof Error ? error.message : 'Could not delete entry.' };

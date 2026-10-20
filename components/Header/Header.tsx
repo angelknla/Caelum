@@ -23,7 +23,13 @@ export default function Header({
       <nav aria-label="Account" className={styles.account}>
         {signedIn ? (
           <>
-            <Link className={styles.profileLink} href="/profile" title="Your profile" aria-label="Your profile">
+            <Link
+              className={styles.profileLink}
+              href="/profile"
+              prefetch={false}
+              title="Your profile"
+              aria-label="Your profile"
+            >
               <UserRound size={18} />
             </Link>
             <form action={lock}>
@@ -33,7 +39,9 @@ export default function Header({
             </form>
           </>
         ) : (
-          <Link href="/login">Sign in</Link>
+          <Link className={styles.signIn} href="/?login=true" scroll={false}>
+            Sign in
+          </Link>
         )}
       </nav>
     </ScrollHeader>

@@ -3,8 +3,7 @@ import { createClient, type SupabaseClient } from '@supabase/supabase-js';
 
 let cached: SupabaseClient | null = null;
 
-const getServerKey = () =>
-  process.env.SUPABASE_SECRET_KEY ?? process.env.SUPABASE_SERVICE_ROLE_KEY;
+const getServerKey = () => process.env.SUPABASE_SECRET_KEY ?? process.env.SUPABASE_SERVICE_ROLE_KEY;
 
 export const isSupabaseConfigured = (): boolean => {
   const key = getServerKey();
@@ -24,6 +23,8 @@ export const getSupabase = (): SupabaseClient | null => {
   if (!cached) {
     cached = createClient(process.env.SUPABASE_URL!, getServerKey()!, {
       auth: { persistSession: false, autoRefreshToken: false, detectSessionInUrl: false },
+      // Cache owned reads explicitly at the data layer, never raw service-key responses.
+      global: { fetch: (input, init) => fetch(input, { ...init, cache: 'no-store' }) },
     });
   }
   return cached;

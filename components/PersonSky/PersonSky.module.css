@@ -1,0 +1,130 @@
+.section {
+  padding: 2.5rem 0;
+  border-bottom: 1px solid var(--border);
+  scroll-margin-top: 7rem;
+}
+.section > h2 {
+  margin: 0.75rem 0 1rem;
+  font-size: clamp(2rem, 3vw, 3rem);
+}
+.card h3,
+.moon h3 {
+  margin: 0.75rem 0 1rem;
+  font-size: 1.65rem;
+}
+.eyebrow {
+  margin: 0;
+  color: var(--gold);
+  font-size: 0.8rem;
+  text-transform: uppercase;
+}
+.intro {
+  max-width: 58rem;
+  color: var(--muted);
+  line-height: 1.8;
+}
+.navigation {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 2rem;
+  padding: 1rem 0;
+  border-bottom: 1px solid var(--border);
+}
+.navigation a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.75rem;
+  font-size: 0.9rem;
+}
+.dailyGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+  gap: 3rem;
+  margin-top: 1.5rem;
+}
+.dailySummary {
+  max-width: 52rem;
+  font-size: 1.2rem;
+  line-height: 1.8;
+}
+.moon {
+  padding: 1.5rem;
+  background: var(--ink);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+.percentage {
+  margin: 1.5rem 0;
+  color: var(--electric);
+  font-family: var(--font-display), sans-serif;
+  font-size: 3.5rem;
+  line-height: 1;
+}
+.percentage small {
+  display: inline-block;
+  margin-left: 0.5rem;
+  font-family: var(--font-ui), sans-serif;
+  font-size: 0.8rem;
+}
+.coreGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 2rem;
+  margin-top: 2rem;
+}
+.card {
+  min-width: 0;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--gold);
+}
+.card p:not(.eyebrow),
+.section li,
+.section details p,
+.moon > p:last-child {
+  color: var(--muted);
+  font-size: 0.95rem;
+  line-height: 1.8;
+}
+.card p.meta,
+.meta {
+  color: var(--muted);
+  font-size: 0.8rem;
+  line-height: 1.6;
+}
+.section summary {
+  color: var(--gold);
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+.section blockquote {
+  margin: 1.5rem 0;
+  padding-left: 1rem;
+  border-left: 1px solid var(--accent);
+  color: var(--text);
+  font-family: var(--font-serif), Georgia, serif;
+  font-size: 1.35rem;
+}
+.dailyFocus,
+.allContacts {
+  margin-top: 2rem;
+}
+.dailyFocus > details,
+.allContacts > details {
+  padding: 0.75rem 0;
+  border-top: 1px solid var(--border);
+}
+@media (max-width: 950px) {
+  .coreGrid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+}
+@media (max-width: 650px) {
+  .dailyGrid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  .section {
+    padding: 2rem 0;
+  }
+}

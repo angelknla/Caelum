@@ -11,8 +11,10 @@ it('marks the parent destination for nested pages', () => {
   expect(screen.getByRole('link', { name: 'Chart' })).not.toHaveAttribute('aria-current');
 });
 
-it('keeps the calendar under Today', () => {
+it('gives Calendar its own destination and active state', () => {
   navigation.pathname = '/calendar';
   render(<PrimaryNavigation />);
-  expect(screen.getByRole('link', { name: 'Today' })).toHaveAttribute('aria-current', 'page');
+  expect(screen.getByRole('link', { name: 'Calendar' })).toHaveAttribute('href', '/calendar');
+  expect(screen.getByRole('link', { name: 'Calendar' })).toHaveAttribute('aria-current', 'page');
+  expect(screen.getByRole('link', { name: 'Today' })).not.toHaveAttribute('aria-current');
 });

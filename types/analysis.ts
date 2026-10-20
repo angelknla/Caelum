@@ -36,6 +36,7 @@ export type TodayFocus = {
   label: string;
   title: string;
   reflection: string;
+  explanation: string;
   prompt: string;
   evidence: string[];
 };

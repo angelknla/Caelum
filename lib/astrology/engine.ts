@@ -3,6 +3,7 @@ import { existsSync } from 'node:fs';
 import path from 'node:path';
 import sweph from 'sweph';
 import { resolveBirthTime } from '@/lib/astrology/birth';
+import { BoundedCache } from '@/lib/cache';
 import type { Aspect, BirthInput, NatalChart, Placement } from '@/types/chart';
 import { DATA_REVISION, ENGINE_VERSION } from './provenance';
 
@@ -104,6 +105,7 @@ export function calculateAspects(positions: Placement[]): Aspect[] {
   return aspects.sort((first, second) => first.orb - second.orb);
 }
 
+let configuredDirectory: string | undefined;
 function ephemerisTime(date: Date): [number, number] {
   if (
     !Number.isFinite(date.getTime()) ||
@@ -112,11 +114,14 @@ function ephemerisTime(date: Date): [number, number] {
   )
     throw new Error('Sky calculations support dates from 1900 through 2099.');
   const directory = path.join(process.cwd(), 'ephemeris');
-  for (const file of ['sepl_18.se1', 'semo_18.se1', 'seas_18.se1']) {
-    if (!existsSync(path.join(directory, file)))
-      throw new Error('Ephemeris data is missing. Run yarn setup:ephemeris.');
+  if (configuredDirectory !== directory) {
+    for (const file of ['sepl_18.se1', 'semo_18.se1', 'seas_18.se1']) {
+      if (!existsSync(path.join(directory, file)))
+        throw new Error('Ephemeris data is missing. Run yarn setup:ephemeris.');
+    }
+    sweph.set_ephe_path(directory);
+    configuredDirectory = directory;
   }
-  sweph.set_ephe_path(directory);
   const dates = sweph.utc_to_jd(
     date.getUTCFullYear(),
     date.getUTCMonth() + 1,
@@ -131,7 +136,14 @@ function ephemerisTime(date: Date): [number, number] {
   return dates.data;
 }
 
-export function calculateSky(at: Date) {
+const skyCache = new BoundedCache<ReturnType<typeof computeSky>>(8192, 60 * 60 * 1000);
+
+// Exact milliseconds remain in the key, including event-solver samples.
+export function calculateSky(at: Date): ReturnType<typeof computeSky> {
+  return structuredClone(skyCache.getOrCreate(String(at.getTime()), () => computeSky(at)));
+}
+
+function computeSky(at: Date) {
   const [et, ut] = ephemerisTime(at);
   const flags = constants.SEFLG_SWIEPH | constants.SEFLG_SPEED;
   const positions = bodies.map(([id, code]) => {
@@ -160,7 +172,12 @@ export function calculateSky(at: Date) {
   };
 }
 
+const natalCache = new BoundedCache<NatalChart>(128, 24 * 60 * 60 * 1000);
 export function calculateNatal(input: BirthInput): NatalChart {
+  return structuredClone(natalCache.getOrCreate(JSON.stringify(input), () => computeNatal(input)));
+}
+
+function computeNatal(input: BirthInput): NatalChart {
   const resolved = resolveBirthTime(input);
   const [et, ut] = ephemerisTime(new Date(resolved.utc));
   const houses = sweph.houses_ex2(ut, 0, input.latitude, input.longitude, 'P');

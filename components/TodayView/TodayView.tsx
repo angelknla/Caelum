@@ -1,6 +1,7 @@
-import { ArrowUpRight } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 import Link from 'next/link';
 import type { buildToday } from '@/lib/astrology/today';
+import overview from '@/styles/sky-overview.module.css';
 import styles from './TodayView.module.css';
 
 type TodayData = ReturnType<typeof buildToday>;
@@ -61,27 +62,35 @@ export default function TodayView({ today, timeZone }: { today: TodayData; timeZ
     `${date.format(new Date(value))} · ${time.format(new Date(value))}`;
   return (
     <article className={styles.today} data-today-view>
-      <div className={styles.observatory}>
+      <div className={`${overview.surface} ${styles.observatory}`} data-sky-overview>
         <header className={styles.heading}>
-          <p className={styles.eyebrow}>{date.format(new Date(today.sky.at))}</p>
-          <h1>
+          <p className={overview.eyebrow}>{date.format(new Date(today.sky.at))}</p>
+          <h1 className={overview.title}>
             Your sky,
             <br />
             <span>today.</span>
           </h1>
-          <p>
-            Calculated at {time.format(new Date(today.sky.at))} · {timeZone}
-          </p>
-          <nav className={styles.heroLinks} aria-label="Sky views">
+          <p className={styles.dailySummary}>{today.summary.text}</p>
+          <details className={styles.summaryEvidence}>
+            <summary>Behind your daily reading</summary>
+            <ul>
+              {today.summary.evidence.map((evidence) => (
+                <li key={evidence}>{evidence}</li>
+              ))}
+            </ul>
+            <p>Astrological themes to reflect on, rather than a fixed prediction of your day.</p>
+          </details>
+          <nav className={overview.links} aria-label="Sky views">
             <Link href="/chart">
-              Your natal chart <ArrowUpRight size={16} aria-hidden="true" />
+              Your natal chart <ArrowRight size={16} aria-hidden="true" />
             </Link>
             <Link href="/calendar">
-              The days ahead <ArrowUpRight size={16} aria-hidden="true" />
+              The days ahead <ArrowRight size={16} aria-hidden="true" />
             </Link>
           </nav>
         </header>
         <section className={styles.lunar} aria-labelledby="moon-title">
+          <p className={styles.eyebrow}>The Moon / Now</p>
           <div className={styles.moonArtwork}>
             <MoonPhase elongation={today.sky.elongation} phase={today.phase} />
             <span className={styles.illumination}>
@@ -89,8 +98,7 @@ export default function TodayView({ today, timeZone }: { today: TodayData; timeZ
               <small>% lit</small>
             </span>
           </div>
-          <div>
-            <p className={styles.eyebrow}>The Moon / Now</p>
+          <div className={styles.lunarInfo}>
             <h2 id="moon-title">{today.phase}</h2>
             <p className={styles.moonPosition}>
               {today.moon.degree.toFixed(2)}° {today.moon.sign} ·{' '}
@@ -119,12 +127,13 @@ export default function TodayView({ today, timeZone }: { today: TodayData; timeZ
           const reading = (
             <section key={focus.id} className={styles.focus} aria-labelledby={`focus-${focus.id}`}>
               <div className={styles.focusLabel}>
-                <span>0{index + 1}</span>
+                <span aria-hidden="true">0{index + 1}</span>
                 <p>{focus.label}</p>
               </div>
-              <div>
+              <div className={styles.focusContent}>
                 <h2 id={`focus-${focus.id}`}>{focus.title}</h2>
                 <p className={styles.reflection}>{focus.reflection}</p>
+                <p className={styles.reflection}>{focus.explanation}</p>
                 <blockquote>{focus.prompt}</blockquote>
                 <Link href={`/journal/new?prompt=${encodeURIComponent(focus.prompt)}`}>
                   Write a reflection
@@ -151,6 +160,9 @@ export default function TodayView({ today, timeZone }: { today: TodayData; timeZ
         })}
       </div>
       <footer className={styles.record}>
+        <p className={styles.snapshot}>
+          Updated at {time.format(new Date(today.sky.at))} · {timeZone}
+        </p>
         <details>
           <summary>Calculation &amp; interpretation record</summary>
           <p>

@@ -1,5 +1,5 @@
 .flow {
-  width: min(100%, 46rem);
+  width: min(100%, var(--form-width));
   margin: 1rem auto 5rem;
 }
 .progress {

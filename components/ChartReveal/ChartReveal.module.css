@@ -3,6 +3,7 @@
   width: 100%;
   border-top: 1px solid var(--border);
   padding-top: 2rem;
+  scroll-margin-top: 7rem;
 }
 .tabs {
   display: flex;
@@ -21,7 +22,7 @@
   border-radius: 0;
   color: var(--muted);
   padding: 0.75rem 0;
-  font-size: 0.75rem;
+  font-size: 1rem;
 }
 .tabs button[aria-pressed="true"] {
   color: var(--gold);
@@ -43,9 +44,46 @@
   font-size: 0.8rem;
 }
 .prose {
+  max-width: 58rem;
   font-family: var(--font-serif), Georgia, serif;
   font-size: 1.65rem;
   line-height: 1.5;
+}
+.context,
+.signature {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 2.5rem;
+  margin-top: 2rem;
+}
+.signature {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+.context h3,
+.signature h3 {
+  margin: 0 0 1rem;
+  font-size: 1.5rem;
+}
+.context p,
+.signature p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 1rem;
+  line-height: 1.8;
+}
+.reveal blockquote {
+  max-width: 58rem;
+  margin: 2rem 0;
+  padding-left: 1rem;
+  border-left: 1px solid var(--accent);
+  color: var(--gold);
+  font-family: var(--font-serif), Georgia, serif;
+  font-size: 1.5rem;
+}
+@media (max-width: 850px) {
+  .signature {
+    grid-template-columns: 1fr;
+  }
 }
 .actions {
   display: flex;
@@ -71,6 +109,10 @@
   border-color: var(--border);
 }
 @media (max-width: 600px) {
+  .context {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
   .reveal h2 {
     font-size: 2.5rem;
   }

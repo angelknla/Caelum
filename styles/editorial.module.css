@@ -1,5 +1,5 @@
 .page {
-  max-width: 64rem;
+  max-width: var(--page-width);
   margin: 0 auto;
 }
 .heading {
@@ -69,6 +69,12 @@
 .search {
   flex: 1;
   min-width: 10rem;
+}
+.libraryDescription {
+  margin: 0 0 1rem;
+  color: var(--muted);
+  font-size: 0.85rem;
+  line-height: 1.6;
 }
 .list {
   list-style: none;
@@ -170,7 +176,7 @@
   display: grid;
   gap: 1.5rem;
   padding: 2rem 0;
-  width: min(100%, 46rem);
+  width: min(100%, var(--form-width));
   margin: 0 auto;
 }
 .form > label:not(.field) {

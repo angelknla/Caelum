@@ -7,6 +7,7 @@ export type Person = {
   chart: NatalChart | null;
   updated_at: string;
 };
+export type PersonSummary = Pick<Person, 'id' | 'name' | 'relationship'> & { hasChart: boolean };
 export type JournalEntry = {
   id: string;
   entry_date: string;
@@ -17,3 +18,4 @@ export type JournalEntry = {
   created_at: string;
   updated_at: string;
 };
+export type JournalSummary = Pick<JournalEntry, 'id' | 'entry_date' | 'title' | 'body' | 'tags'>;

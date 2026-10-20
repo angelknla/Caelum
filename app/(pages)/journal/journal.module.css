@@ -1,5 +1,5 @@
 .journal {
-  width: min(100%, 64rem);
+  width: min(100%, var(--page-width));
   margin-inline: auto;
 }
 

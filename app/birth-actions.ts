@@ -39,9 +39,7 @@ export async function submitBirth(
     if (error instanceof ProfileStorageError) return { error: error.message };
     return { error: error instanceof Error ? error.message : 'Could not save birth details.' };
   }
-  revalidatePath('/');
-  revalidatePath('/chart');
-  revalidatePath('/today');
+  revalidatePath('/', 'layout');
   redirect('/chart');
 }
 
@@ -83,6 +81,6 @@ export async function submitDetails(
       error: error instanceof ProfileStorageError ? error.message : 'Could not save your profile.',
     };
   }
-  revalidatePath('/profile');
+  revalidatePath('/', 'layout');
   redirect('/chart');
 }

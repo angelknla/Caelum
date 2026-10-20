@@ -84,6 +84,94 @@
 .artwork .wheel {
   width: 100%;
 }
+@media (min-width: 1001px) {
+  .artwork {
+    width: min(100%, var(--controls-height, 44rem));
+    justify-self: center;
+  }
+}
+.explorer[data-compact="true"] .artwork {
+  width: min(100%, 44rem);
+  justify-self: center;
+}
+.explorer[data-compact="true"] .inspector {
+  padding-top: 0;
+}
+.explorer[data-compact="true"] .eyebrow {
+  margin: 0 0 0.5rem;
+}
+.explorer[data-compact="true"] .label,
+.explorer[data-compact="true"] .toggle {
+  font-size: 0.85rem;
+  margin: 0.5rem 0 0.25rem;
+}
+.explorer[data-compact="true"] select {
+  font-size: 0.85rem;
+  padding: 0.5rem;
+}
+.explorer[data-compact="true"] .readout {
+  min-height: 0;
+}
+.explorer[data-compact="true"] .readout h2 {
+  font-size: 1.65rem;
+  margin: 0.75rem 0 0.25rem;
+}
+.explorer[data-compact="true"] .readout h3 {
+  font-size: 1.15rem;
+  margin: 1rem 0 0.4rem;
+}
+.explorer[data-compact="true"] .position,
+.explorer[data-compact="true"] .houseName {
+  font-size: 0.85rem;
+  margin: 0.5rem 0;
+}
+.explorer[data-compact="true"] .readout dl {
+  gap: 0.5rem;
+  margin: 0.75rem 0;
+}
+.explorer[data-compact="true"] .readout ul {
+  margin: 0.4rem 0;
+}
+.explorer[data-compact="true"] .readout li button {
+  font-size: 0.85rem;
+  padding: 0.5rem 0;
+}
+.explorer[data-compact="true"] .readout small {
+  font-size: 0.7rem;
+  margin-top: 0.2rem;
+}
+.explorer[data-compact="true"] .meaning {
+  margin: 0.25rem 0;
+}
+.explorer[data-compact="true"] .meaning summary {
+  font-size: 0.8rem;
+  min-height: 2.5rem;
+  padding: 0.5rem 0;
+}
+.explorer[data-compact="true"] .houseControls {
+  gap: 0.3rem;
+  margin-top: 0.5rem;
+}
+.explorer[data-compact="true"] .houseControls legend {
+  margin-bottom: 0.4rem;
+}
+.explorer[data-compact="true"] .houseControls button {
+  font-size: 0.85rem;
+}
+@media (min-width: 1001px) {
+  .explorer[data-compact="true"] {
+    grid-template-columns: minmax(0, 1fr) 17rem;
+    gap: 2rem;
+    padding: 1.5rem;
+  }
+  .explorer[data-compact="true"] .inspector {
+    max-height: var(--wheel-height, 44rem);
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: var(--border) transparent;
+    padding-right: 0.5rem;
+  }
+}
 .bodyControl {
   position: absolute;
   transform: translate(-50%, -50%);
@@ -199,6 +287,28 @@
 .note {
   color: var(--muted);
   font-size: 0.8rem;
+}
+.meaning {
+  margin: 1rem 0;
+  border-top: 1px solid var(--border);
+}
+.meaning summary {
+  color: var(--gold);
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+.meaning p {
+  color: var(--muted);
+  font-size: 0.85rem;
+  line-height: 1.7;
+}
+.meaning h3 {
+  font-size: 1.2rem;
+  margin: 1.5rem 0 0.5rem;
+}
+.houseName {
+  color: var(--gold);
+  font-size: 1rem;
 }
 .houseControls {
   border: 0;

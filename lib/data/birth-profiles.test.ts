@@ -1,6 +1,10 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 vi.mock('server-only', () => ({}));
+vi.mock('next/cache', () => ({
+  unstable_cache: (load: () => Promise<unknown>) => load,
+  updateTag: vi.fn(),
+}));
 vi.mock('sweph', () => {
   throw new Error('Profile storage must not load the native calculation engine.');
 });

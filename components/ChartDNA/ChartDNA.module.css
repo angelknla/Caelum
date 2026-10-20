@@ -2,7 +2,7 @@
 .insight {
   border-top: 1px solid var(--border);
   padding: 2.5rem 0;
-  scroll-margin-top: 2rem;
+  scroll-margin-top: 7rem;
 }
 .eyebrow {
   color: var(--gold);
@@ -56,6 +56,21 @@
   margin: 0.25rem 0;
   color: var(--muted);
   font-size: 0.7rem;
+}
+.intro,
+.row .explanation,
+.distribution > .explanation {
+  max-width: 58rem;
+  color: var(--muted);
+  font-size: 0.9rem;
+  line-height: 1.7;
+}
+.houseTheme {
+  grid-column: 1 / -1;
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.85rem;
+  line-height: 1.7;
 }
 .emphasis ol {
   list-style: none;

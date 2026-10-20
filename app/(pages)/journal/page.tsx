@@ -50,7 +50,9 @@ export default async function JournalPage({
               {entry.entry_date} · {entry.tags.join(' / ')}
             </span>
             <h2>
-              <Link href={`/journal/${entry.id}`}>{entry.title}</Link>
+              <Link prefetch={false} href={`/journal/${entry.id}`}>
+                {entry.title}
+              </Link>
             </h2>
             <p className={styles.body}>
               {entry.body.slice(0, 220)}
@@ -62,12 +64,18 @@ export default async function JournalPage({
       {!error && !entries.length && <p>No entries match this view.</p>}
       <nav className={styles.tabs} aria-label="Journal pages">
         {page > 0 && (
-          <Link href={`/journal?page=${Math.floor(page) - 1}&tag=${encodeURIComponent(tag)}`}>
+          <Link
+            prefetch={false}
+            href={`/journal?page=${Math.floor(page) - 1}&tag=${encodeURIComponent(tag)}`}
+          >
             Newer entries
           </Link>
         )}
         {entries.length === 20 && (
-          <Link href={`/journal?page=${Math.floor(page) + 1}&tag=${encodeURIComponent(tag)}`}>
+          <Link
+            prefetch={false}
+            href={`/journal?page=${Math.floor(page) + 1}&tag=${encodeURIComponent(tag)}`}
+          >
             Older entries
           </Link>
         )}

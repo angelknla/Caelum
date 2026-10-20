@@ -1,139 +1,225 @@
 .today {
-  max-width: 64rem;
+  max-width: var(--page-width);
   margin: 0 auto;
 }
-.heading {
-  padding: 0;
-  border: 0;
+
+.observatory {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: start;
+  gap: clamp(2rem, 5vw, 6rem);
 }
+
+.heading,
+.lunar {
+  min-width: 0;
+}
+
 .eyebrow {
+  margin: 0;
   color: var(--gold);
   font-size: 0.7rem;
   text-transform: uppercase;
 }
-.heading h1 {
-  font-size: 5rem;
-  margin: 2.5rem 0 2rem;
-  line-height: 1;
+
+.dailySummary {
+  max-width: 44rem;
+  margin: 0;
+  color: var(--text);
+  font-size: clamp(1.05rem, 1.4vw, 1.25rem);
+  line-height: 1.8;
+  text-wrap: pretty;
 }
-.heading > p:not(.eyebrow) {
+
+.summaryEvidence {
+  max-width: 44rem;
+  margin-top: 1rem;
+}
+
+.summaryEvidence summary,
+.focus summary,
+.record summary {
+  color: var(--gold);
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+.summaryEvidence ul,
+.summaryEvidence p,
+.focus ul,
+.record p {
   color: var(--muted);
-  font-size: 0.8rem;
+  font-size: 0.85rem;
+  line-height: 1.8;
+  overflow-wrap: anywhere;
 }
-.heading a {
-  display: inline-block;
-  margin-top: 0.75rem;
-  font-size: 1rem;
+
+.summaryEvidence ul,
+.focus ul {
+  padding-left: 1.25rem;
 }
+
 .lunar {
   display: grid;
-  grid-template-columns: minmax(0, 1fr);
-  align-items: center;
-  gap: 1.5rem;
-  padding: 0;
+  align-content: start;
+  gap: 1.25rem;
+  width: min(100%, 36rem);
+  justify-self: end;
 }
-.moon {
-  width: 100%;
-  aspect-ratio: 1;
-  max-width: 22rem;
-  display: block;
+
+.moonArtwork {
+  position: relative;
+  width: min(100%, 30rem);
   margin-inline: auto;
 }
-.lunar h2 {
+
+.illumination {
+  position: absolute;
+  right: 0;
+  bottom: 1.5rem;
+  color: var(--electric);
+  font-family: var(--font-display), sans-serif;
+  font-size: clamp(2.5rem, 4vw, 3.5rem);
+  line-height: 1;
+}
+
+.illumination small {
+  display: block;
+  margin-top: 0.5rem;
+  text-align: right;
+  font-family: var(--font-ui), sans-serif;
+  font-size: 0.75rem;
+}
+
+.moon {
+  display: block;
+  width: 100%;
+  aspect-ratio: 1;
+}
+
+.lunarInfo h2 {
+  margin: 0 0 0.5rem;
   font-size: 2rem;
-  margin: 0.6rem 0;
 }
+
 .moonPosition {
-  font-size: 0.85rem;
+  margin: 0;
   color: var(--muted);
+  font-size: 0.85rem;
 }
+
+.lunarEvents {
+  border-top: 1px solid var(--border);
+  margin-top: 1.25rem;
+}
+
+.lunarEvents summary {
+  color: var(--text);
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
 .lunar dl {
   display: grid;
-  grid-template-columns: 8rem minmax(0, 1fr);
+  grid-template-columns: 7rem minmax(0, 1fr);
   gap: 1rem;
-  margin-top: 1.5rem;
+  margin: 1rem 0 0;
   font-size: 0.8rem;
 }
+
 .lunar dt {
   color: var(--muted);
 }
+
 .lunar dd {
   margin: 0;
 }
+
 .lunar small {
   display: block;
   color: var(--muted);
   margin-top: 0.3rem;
 }
-.lunarEvents {
-  border-top: 1px solid var(--border);
-  margin-top: 1.25rem;
-}
-.lunarEvents summary {
-  cursor: pointer;
-  color: var(--text);
-  font-size: 1rem;
-}
+
 .focus {
   display: grid;
-  grid-template-columns: 9rem minmax(0, 1fr);
-  gap: 2rem;
-  padding: 3rem 0;
+  grid-template-columns: minmax(0, 1fr);
+  align-items: start;
+  gap: 1rem;
+  padding: 2.5rem 0;
   border-top: 1px solid var(--border);
 }
-.focusLabel {
-  color: var(--gold);
-  font-size: 0.75rem;
+
+.focuses > .focus:first-child {
+  border-top: 0;
 }
+
+.focusLabel {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  color: var(--accent);
+  font-size: 1.1rem;
+  font-weight: 500;
+}
+
 .focusLabel span {
+  display: block;
   font-family: var(--font-serif), Georgia, serif;
-  font-size: 3.5rem;
+  font-size: 3rem;
   line-height: 1;
 }
+
 .focusLabel p {
-  margin: 0.5rem 0;
+  margin: 0;
 }
+
+.focusContent {
+  min-width: 0;
+  max-width: 64rem;
+}
+
 .focus h2 {
-  font-size: 2.75rem;
   margin: 0 0 1rem;
+  font-size: clamp(2rem, 3vw, 2.75rem);
+  text-wrap: pretty;
 }
+
 .reflection {
-  max-width: 40rem;
+  max-width: 52rem;
+  margin: 0;
+  font-size: 1rem;
   line-height: 1.8;
+}
+
+.reflection + .reflection {
+  margin-top: 0.75rem;
+  color: var(--muted);
+}
+
+.focus blockquote {
+  max-width: 52rem;
+  margin: 1.5rem 0 1rem;
+  padding-left: 1rem;
+  border-left: 1px solid var(--accent);
+  color: var(--text);
+  font-family: var(--font-serif), Georgia, serif;
+  font-size: 1.8rem;
+  line-height: 1.35;
+}
+
+.focus a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.75rem;
+  margin: 0 0 0.5rem;
   font-size: 0.95rem;
 }
-.focus blockquote {
-  color: var(--gold);
-  border-left: 1px solid var(--gold);
-  padding-left: 1rem;
-  margin: 1.5rem 0;
-  font-family: var(--font-serif), Georgia, serif;
-  font-size: 2.3rem;
-}
-.focus summary,
-.record summary {
-  color: var(--gold);
-  font-size: 1rem;
-  cursor: pointer;
-}
-.focus ul,
-.record p {
-  color: var(--muted);
-  font-size: 0.8rem;
-  line-height: 1.8;
-  overflow-wrap: anywhere;
-}
-.record {
-  border-top: 1px solid var(--border);
-  padding: 2rem 0;
-  font-size: 0.8rem;
-}
-.record details {
-  margin-bottom: 1.5rem;
-}
+
 .secondary {
   border-top: 1px solid var(--border);
 }
+
 .secondary > summary {
   display: flex;
   align-items: center;
@@ -141,195 +227,93 @@
   gap: 1rem;
   padding: 1.25rem 0;
   color: var(--text);
+  font-family: var(--font-display), sans-serif;
+  font-size: 1.35rem;
   cursor: pointer;
-  font-family: var(--font-display), Georgia, serif;
-  font-size: 1.6rem;
 }
+
 .secondary > summary::after {
   content: "+";
-  color: var(--gold);
+  color: var(--accent);
   font-family: var(--font-ui), sans-serif;
   font-size: 1rem;
 }
+
 .secondary[open] > summary::after {
-  content: "-";
+  content: "−";
 }
+
 .secondary .focus {
   border: 0;
   padding-top: 1rem;
 }
-.focus a {
-  display: inline-block;
-  font-size: 1rem;
-  margin: 0.5rem 0 1rem;
-  text-underline-offset: 0.3rem;
+
+.record {
+  border-top: 1px solid var(--border);
+  padding: 1.5rem 0 0;
+  font-size: 0.85rem;
 }
-@media (min-width: 651px) and (max-width: 950px) {
-  .lunar {
+
+.record details {
+  margin-bottom: 1rem;
+}
+
+.record p {
+  max-width: 64rem;
+}
+
+.record .snapshot {
+  margin: 0 0 0.5rem;
+  font-size: 0.75rem;
+}
+
+@media (max-width: 950px) {
+  .observatory {
     gap: 2rem;
   }
+
   .lunar dl {
     grid-template-columns: 1fr;
     gap: 0.5rem;
   }
 }
-@media (max-width: 650px) {
-  .heading h1 {
-    font-size: 3rem;
-  }
-  .lunar {
+
+@media (max-width: 750px) {
+  .observatory {
     grid-template-columns: 1fr;
-    gap: 1.5rem;
-    padding: 0;
   }
-  .moon {
-    max-width: 300px;
-    justify-self: center;
+
+  .lunar {
+    width: 100%;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1rem 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--border);
   }
-  .lunar h2 {
-    font-size: 2.5rem;
+
+  .lunar > .eyebrow {
+    grid-column: 1 / -1;
   }
-  .focus h2 {
+
+  .moonArtwork {
+    width: min(100%, 24rem);
+  }
+}
+
+@media (max-width: 650px) {
+  .lunarInfo h2 {
     font-size: 2rem;
   }
-  .lunar dl {
-    grid-template-columns: 1fr;
-    gap: 0.5rem;
+
+  .lunarEvents {
+    margin-top: 0.75rem;
   }
-  .lunar dd {
-    margin-bottom: 0.75rem;
-  }
+
   .focus {
-    grid-template-columns: 1fr;
-    gap: 0.75rem;
+    padding: 2rem 0;
   }
-  .focusLabel {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-  }
-}
-.observatory {
-  --text: #f5f6f2;
-  --muted: #bcbcb7;
-  --gold: #e4ff7a;
-  --accent: #e4ff7a;
-  --border: #393939;
-  color: var(--text);
-  background: var(--ink);
-  border-radius: 0;
-  display: grid;
-  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
-  gap: 2.5rem;
-  margin: 0 calc((100% - 100vw) / 2) 3rem;
-  padding: 3rem max(3rem, calc((100vw - 64rem) / 2));
-}
-.heading h1 span {
-  color: var(--electric);
-  font-family: var(--font-serif), Georgia, serif;
-  font-weight: 400;
-  font-size: 6rem;
-}
-.heroLinks {
-  display: flex;
-  flex-direction: column;
-  align-items: start;
-  margin-top: 2rem;
-  gap: 0.5rem;
-}
-.heroLinks a {
-  color: var(--text);
-  min-height: 2.75rem;
-  padding: 0.6rem 0;
-  text-decoration: none;
-  border-bottom: 1px solid var(--border);
-  width: 100%;
-}
-.heroLinks a {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 0.5rem;
-}
-.heroLinks svg {
-  color: var(--electric);
-  flex-shrink: 0;
-}
-.moonArtwork {
-  position: relative;
-  width: 100%;
-}
-.illumination {
-  position: absolute;
-  bottom: 1.5rem;
-  right: 0;
-  font-family: var(--font-display), sans-serif;
-  font-size: 2rem;
-  color: var(--electric);
-}
-.illumination small {
-  display: block;
-  text-align: right;
-  font-family: var(--font-ui), sans-serif;
-  font-size: 0.7rem;
-}
-.focuses > .focus:first-child {
-  grid-template-columns: 8rem minmax(0, 1fr);
-  border-top: 0;
-}
-.focuses > .focus:first-child h2 {
-  font-size: 3rem;
-  max-width: 40rem;
-}
-.focusLabel {
-  color: var(--accent);
-}
-.focus blockquote {
-  color: var(--text);
-  border-color: var(--accent);
-}
-@media (min-width: 651px) and (max-width: 950px) {
-  .observatory {
-    padding: 2rem;
-    gap: 2rem;
-  }
-  .heading h1 {
-    font-size: 3.5rem;
-  }
-  .heading h1 span {
-    font-size: 4.5rem;
-  }
-}
-@media (max-width: 650px) {
-  .observatory {
-    border-radius: 0;
-    grid-template-columns: 1fr;
-    margin-inline: -1.25rem;
-    padding: 2rem 1.25rem;
-    gap: 1.5rem;
-  }
-  .heading h1 {
-    font-size: 3.5rem;
-    margin: 1.5rem 0;
-  }
-  .heading h1 span {
-    font-size: 4.5rem;
-  }
-  .heroLinks {
-    flex-direction: row;
-    margin-top: 1.5rem;
-    gap: 1rem;
-  }
-  .heroLinks a {
-    font-size: 0.75rem;
-  }
-  .focuses > .focus:first-child {
-    grid-template-columns: 1fr;
-  }
-  .focuses > .focus:first-child h2 {
-    font-size: 2rem;
-  }
+
   .focus blockquote {
-    font-size: 1.8rem;
+    font-size: 1.6rem;
   }
 }

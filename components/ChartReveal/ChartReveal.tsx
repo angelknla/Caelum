@@ -3,23 +3,9 @@
 import { ArrowLeft, ArrowRight } from 'lucide-react';
 import Link from 'next/link';
 import { useRef, useState } from 'react';
+import { placementReading } from '@/lib/astrology/natal-reading';
 import type { NatalChart } from '@/types/chart';
 import styles from './ChartReveal.module.css';
-
-const meanings: Record<string, string> = {
-  Aries: 'initiative, courage, and the instinct to begin',
-  Taurus: 'steadiness, embodiment, and what you value',
-  Gemini: 'curiosity, conversation, and changing perspectives',
-  Cancer: 'belonging, memory, and emotional protection',
-  Leo: 'creative expression, warmth, and being seen',
-  Virgo: 'discernment, craft, and thoughtful attention',
-  Libra: 'relationship, balance, and the art of exchange',
-  Scorpio: 'depth, trust, and transformation',
-  Sagittarius: 'exploration, meaning, and a wider horizon',
-  Capricorn: 'responsibility, structure, and patient ambition',
-  Aquarius: 'independence, community, and unconventional thinking',
-  Pisces: 'imagination, compassion, and porous boundaries',
-};
 
 export default function ChartReveal({ chart }: { chart: NatalChart }) {
   const [stage, setStage] = useState(0);
@@ -28,9 +14,10 @@ export default function ChartReveal({ chart }: { chart: NatalChart }) {
   const moon = chart.placements.find((body) => body.id === 'Moon')!;
   const rising = chart.angles.ascendant;
   const body = [sun, moon, rising][stage];
+  const reading = body ? placementReading(body) : null;
   const labels = ['The Sun', 'The Moon', 'The Rising', 'Your cosmic signature'];
   return (
-    <section className={styles.reveal}>
+    <section id="core-chart" className={styles.reveal} aria-label="Your Sun, Moon, and rising">
       <fieldset className={styles.tabs} aria-label="Chart reveal">
         {labels.map((label, index) => (
           <button
@@ -61,20 +48,45 @@ export default function ChartReveal({ chart }: { chart: NatalChart }) {
             {body.id === 'Ascendant' ? 'Rising' : body.id} at {body.degree.toFixed(2)}° {body.sign}
             {body.house !== null && ` · House ${body.house}`}
           </p>
-          <p className={styles.prose}>
-            {stage === 0
-              ? 'In astrology, the Sun is a symbol of identity and conscious expression.'
-              : stage === 1
-                ? 'In astrology, the Moon is a symbol of emotional needs and familiar rhythms.'
-                : 'In astrology, the rising sign describes an approach to the world, not a fixed personality.'}{' '}
-            {body.sign} brings themes of {meanings[body.sign]}.
-          </p>
+          <p className={styles.prose}>{reading!.description}</p>
+          <div className={styles.context}>
+            <section>
+              <h3>Your style of expression</h3>
+              <p>{reading!.expression}</p>
+            </section>
+            <section>
+              <h3>
+                {reading!.house
+                  ? `House ${body.house} / ${reading!.house.name}`
+                  : 'How this fits your chart'}
+              </h3>
+              <p>{reading!.area}</p>
+            </section>
+          </div>
+          <blockquote>{reading!.prompt}</blockquote>
         </>
       ) : (
-        <p className={styles.prose}>
-          A {sun.sign} Sun, {moon.sign} Moon, and {rising.sign} rising. These are symbolic starting
-          points for reflection, not a prediction or a complete account of who you are.
-        </p>
+        <>
+          <p className={styles.prose}>
+            Your Sun describes conscious direction, your Moon describes familiar needs, and your
+            rising sign describes your first approach. Reading them together makes room for
+            different parts of your experience.
+          </p>
+          <div className={styles.signature}>
+            {[sun, moon, rising].map((placement) => (
+              <section key={placement.id}>
+                <h3>
+                  {placement.id === 'Ascendant' ? 'Rising' : placement.id} / {placement.sign}
+                </h3>
+                <p>{placementReading(placement).expression}</p>
+              </section>
+            ))}
+          </div>
+          <blockquote>
+            Where do your intentions, needs, and first responses support each other—and where do
+            they ask for different things?
+          </blockquote>
+        </>
       )}
       <div className={styles.actions}>
         <button

@@ -5,14 +5,16 @@
   --muted: #bcbcb7;
   --border: #3b3b3b;
   --gold: #d6c199;
+  --link: #c7bca7;
   --accent: #e4ff7a;
   --ink: #050505;
   --electric: #e4ff7a;
   --wine: #6e3948;
   --error: #ff91a7;
   --radius: 8px;
-  --page-width: 64rem;
-  --page-gutter: 3rem;
+  --page-width: 90rem;
+  --form-width: 64rem;
+  --page-gutter: 2rem;
   color-scheme: dark;
 }
 
@@ -41,7 +43,7 @@ main {
   padding: 3rem var(--page-gutter) 5rem;
 }
 
-main:has([data-today-view]) {
+main:has([data-sky-overview]) {
   padding-top: 0;
 }
 
@@ -55,9 +57,16 @@ h3 {
 }
 
 a {
-  color: var(--accent);
-  text-underline-offset: 0.3em;
-  text-decoration-thickness: 1px;
+  color: var(--link);
+  text-decoration: none;
+}
+
+a:hover {
+  color: var(--text);
+}
+
+a:focus-visible {
+  outline-color: var(--link);
 }
 
 button,
@@ -100,6 +109,10 @@ summary:active {
 :focus-visible {
   outline: 2px solid var(--accent);
   outline-offset: 3px;
+}
+
+a[href]:active {
+  outline-color: var(--link);
 }
 
 button:hover:not(:disabled) {
@@ -170,6 +183,12 @@ select {
   }
 }
 @media (prefers-reduced-motion: no-preference) {
+  a {
+    transition:
+      color 120ms ease,
+      background-color 120ms ease,
+      border-color 120ms ease;
+  }
   button {
     transition:
       background-color 120ms ease,

@@ -1,47 +1,6 @@
 .chart {
-  width: min(100%, 64rem);
-  margin: 1rem auto 4rem;
-}
-.banner {
-  background: var(--ink);
-  border-radius: 0;
-  margin-inline: calc((100% - 100vw) / 2);
-  padding: 3rem max(3rem, calc((100vw - 64rem) / 2));
-}
-.banner > :first-child {
-  background: transparent;
-  border-radius: 0;
-  margin: 0;
-  padding: 0;
-}
-@media (max-width: 650px) {
-  .banner {
-    border-radius: 0;
-    padding: 2rem 1.25rem;
-  }
-}
-.heading {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
-  margin-bottom: 3rem;
-}
-.heading h1 {
-  font-size: 4rem;
-  margin: 0.75rem 0;
-}
-.heading p:not(.eyebrow) {
-  color: var(--muted);
-  font-size: 0.8rem;
-}
-.heading > a {
-  width: 3rem;
-  height: 3rem;
-  flex-shrink: 0;
-  display: grid;
-  place-items: center;
-  color: var(--muted);
+  width: min(100%, var(--page-width));
+  margin: 0 auto 4rem;
 }
 .eyebrow {
   color: var(--gold);
@@ -49,7 +8,7 @@
   text-transform: uppercase;
 }
 .empty {
-  width: min(100%, 40rem);
+  width: min(100%, var(--form-width));
   margin: 4rem auto;
 }
 .empty h1 {
@@ -65,8 +24,16 @@
   margin-top: 1rem;
 }
 .evidence {
+  scroll-margin-top: 7rem;
   border-top: 1px solid var(--border);
   padding-top: 2rem;
+}
+.guide {
+  max-width: 58rem;
+  color: var(--muted);
+  font-size: 0.95rem;
+  line-height: 1.8;
+  margin-bottom: 2rem;
 }
 .evidence h2 {
   font-size: 2.5rem;
@@ -136,9 +103,6 @@
   overflow-wrap: anywhere;
 }
 @media (max-width: 600px) {
-  .heading h1 {
-    font-size: 2.25rem;
-  }
   .record {
     grid-template-columns: 1fr;
     gap: 0.5rem;
