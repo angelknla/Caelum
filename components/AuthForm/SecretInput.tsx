@@ -14,7 +14,12 @@ export default function SecretInput({ secretLabel, disabled, ...props }: SecretI
 
   return (
     <div className={styles.field}>
-      <input {...props} disabled={disabled} type={visible ? 'text' : 'password'} className={styles.input} />
+      <input
+        {...props}
+        disabled={disabled}
+        type={visible ? 'text' : 'password'}
+        className={styles.input}
+      />
       <button
         type="button"
         className={styles.toggle}

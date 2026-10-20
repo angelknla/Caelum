@@ -1,4 +1,10 @@
-import { hashPassword, isValidEmail, isValidPassword, isValidUsername, verifyPassword } from '@/lib/account';
+import {
+  hashPassword,
+  isValidEmail,
+  isValidPassword,
+  isValidUsername,
+  verifyPassword,
+} from '@/lib/account';
 
 describe('account credentials', () => {
   it('preserves the FitnessJourni password format and verifies passwords', async () => {

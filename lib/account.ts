@@ -47,7 +47,8 @@ export const verifyPassword = async (password: string, encoded: string): Promise
     !saltText ||
     !expected ||
     extra !== undefined
-  ) return false;
+  )
+    return false;
 
   try {
     const key = await crypto.subtle.importKey('raw', encoder.encode(password), 'PBKDF2', false, [

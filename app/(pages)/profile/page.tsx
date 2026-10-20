@@ -13,7 +13,9 @@ export default async function ProfilePage() {
     const profile = await getBirthProfile();
     if (!profile) redirect('/begin');
     initial = profile.details;
+  } catch (error) {
+    if (error instanceof ProfileStorageError) redirect('/begin');
+    throw error;
   }
-  catch (error) { if (error instanceof ProfileStorageError) redirect('/begin'); throw error; }
   return <ProfileDetails initial={initial} />;
 }

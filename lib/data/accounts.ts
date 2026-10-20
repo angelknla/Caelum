@@ -30,7 +30,12 @@ export const getAccount = async (memberId: string): Promise<MemberAccount | null
     email: string;
     members: { name: string };
   };
-  return { memberId: row.member_id, name: row.members.name, username: row.username, email: row.email };
+  return {
+    memberId: row.member_id,
+    name: row.members.name,
+    username: row.username,
+    email: row.email,
+  };
 };
 
 export const createAccount = async (

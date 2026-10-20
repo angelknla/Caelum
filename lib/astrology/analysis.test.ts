@@ -1,6 +1,7 @@
 import { describe, expect, it, vi } from 'vitest';
 
 vi.mock('server-only', () => ({}));
+
 import type { NatalChart } from '@/types/chart';
 import { analyzeChart, detectConfigurations } from './analysis';
 import { calculateAspects, calculateNatal, placement } from './engine';

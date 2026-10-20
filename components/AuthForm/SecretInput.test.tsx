@@ -9,7 +9,12 @@ describe('secret field visibility', () => {
     render(
       <form onSubmit={onSubmit}>
         <label htmlFor="password">Password</label>
-        <SecretInput id="password" name="password" secretLabel="password" autoComplete="current-password" />
+        <SecretInput
+          id="password"
+          name="password"
+          secretLabel="password"
+          autoComplete="current-password"
+        />
       </form>
     );
     const input = screen.getByLabelText('Password');
@@ -18,7 +23,10 @@ describe('secret field visibility', () => {
     await user.click(screen.getByRole('button', { name: 'Show password' }));
     expect(input).toHaveAttribute('type', 'text');
     expect(input).toHaveValue('test-password');
-    expect(screen.getByRole('button', { name: 'Hide password' })).toHaveAttribute('aria-pressed', 'true');
+    expect(screen.getByRole('button', { name: 'Hide password' })).toHaveAttribute(
+      'aria-pressed',
+      'true'
+    );
     expect(input).toHaveAttribute('autoComplete', 'current-password');
     await user.click(screen.getByRole('button', { name: 'Hide password' }));
     expect(input).toHaveAttribute('type', 'password');

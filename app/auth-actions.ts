@@ -45,7 +45,9 @@ export const loginWithCredentials = async (
   if (!isSupabaseConfigured() || !process.env.APP_PASSCODE) {
     return { error: 'Sign-in is currently unavailable.' };
   }
-  const login = String(formData.get('login') ?? '').trim().toLowerCase();
+  const login = String(formData.get('login') ?? '')
+    .trim()
+    .toLowerCase();
   const password = String(formData.get('password') ?? '');
   if (!login || !password || login.length > 254 || password.length > 128) {
     return { error: 'Enter your username or email and password.' };
@@ -72,7 +74,10 @@ export const registerAccount = async (
     return { error: 'Registration is currently unavailable.' };
   }
   const entered = String(formData.get('passcode') ?? '');
-  if (entered.length > 256 || !tokensMatch(await deriveToken(entered), await deriveToken(passcode))) {
+  if (
+    entered.length > 256 ||
+    !tokensMatch(await deriveToken(entered), await deriveToken(passcode))
+  ) {
     await new Promise((resolve) => setTimeout(resolve, 600));
     return { error: 'That app passcode is not right.' };
   }
@@ -81,12 +86,14 @@ export const registerAccount = async (
   const email = normalizeEmail(String(formData.get('email') ?? ''));
   const password = String(formData.get('password') ?? '');
   if (!name || name.length > 80) return { error: 'Enter a name between 1 and 80 characters.' };
-  if (!isValidUsername(username)) return { error: 'Use a username with 3 to 30 letters, numbers, dots, underscores or hyphens.' };
+  if (!isValidUsername(username))
+    return { error: 'Use a username with 3 to 30 letters, numbers, dots, underscores or hyphens.' };
   if (!isValidEmail(email) || email.length > 254) return { error: 'Enter a valid email address.' };
   if (!isValidPassword(password)) return { error: 'Use a password between 8 and 128 characters.' };
   try {
     const result = await createAccount(name, username, email, await hashPassword(password));
-    if (result.error || !result.memberId) return { error: result.error ?? 'Could not create your account.' };
+    if (result.error || !result.memberId)
+      return { error: result.error ?? 'Could not create your account.' };
     await setAuthenticatedCookies(result.memberId);
   } catch {
     return { error: 'Registration is currently unavailable. Please try again later.' };

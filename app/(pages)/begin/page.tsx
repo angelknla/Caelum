@@ -10,7 +10,10 @@ export const dynamic = 'force-dynamic';
 export default async function BeginPage() {
   if (!(await getCurrentAccount())) redirect('/login');
   let initial: BirthInput | undefined;
-  try { initial = (await getBirthProfile())?.birth; }
-  catch (error) { if (!(error instanceof ProfileStorageError)) throw error; }
+  try {
+    initial = (await getBirthProfile())?.birth;
+  } catch (error) {
+    if (!(error instanceof ProfileStorageError)) throw error;
+  }
   return <BirthFlow initial={initial} />;
 }
