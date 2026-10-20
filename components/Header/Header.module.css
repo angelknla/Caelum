@@ -130,7 +130,7 @@
 @media (max-width: 750px) {
   .header {
     min-height: 3.5rem;
-    padding-block: 0.5rem;
+    padding: 0.5rem 0;
     gap: 0.25rem 0.75rem;
   }
 
@@ -139,7 +139,12 @@
   }
 
   .brand {
+    margin-left: var(--page-gutter);
     font-size: 1.2rem;
+  }
+
+  .account {
+    margin-right: var(--page-gutter);
   }
 
   .primary {
